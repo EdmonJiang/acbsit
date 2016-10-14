@@ -1,0 +1,63 @@
+extends layout
+
+append script
+      script(src='/cmdb/js/angular.min.js',type='text/javascript')
+      
+block content
+  .staffContainer(ng-controller="staffCtrl")
+    h1 AC Staff Information Query
+    br
+    br
+    form#site-form.form-horizontal(ng-submit="submitInfo()")
+      div
+        label.col-sm-2.control-label(for='site') Search:
+        .col-sm-6.search-box
+          input#qword.form-control(type='text' name="q" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com")
+        .col-sm-2
+          h5(ng-class="errMsg.class" ng-bind="errMsg.text")
+      .col-sm-10.col-sm-offset-2
+        .panel
+          label.radio-inline
+            input(type="radio" name="key" ng-model="form.key" id="AdMail" value="AdMail" ng-checked="true" title="firstname.lastname or firstname.lastname@xx.atlascopco.com")
+            |Email
+          label.radio-inline
+            input(type="radio" name="key" ng-model="form.key" id="ManagerMail" value="ManagerMail" title="Search users by whose manager's email address")
+            |Manager's email
+          label.radio-inline
+            input(type="radio" name="key" ng-model="form.key" id="LocalJobTitle" value="LocalJobTitle" title="Search users by local job title")
+            |Local Job Title  
+          label.radio-inline
+            input(type="radio" name="key" ng-model="form.key" id="CostCenter" value="CostCenter" title="Search users by Cost Center")
+            |Cost Center    
+          label.radio-inline
+            input(type="radio" name="key" ng-model="form.key" id="Department" value="Department" title="Search users by department name")
+            |Department
+
+    #siteinfo
+      table.table.table-striped.table-hover
+        tr
+          th UserName
+          th Email Address
+          th City
+          th Division
+          th Local Job Title
+          th Department
+          th OperationalManager
+          th Cost Center
+          th FAM Code legal unit
+          th Company FAM Code
+          th Company Name
+        tr(ng-repeat="user in users")
+          td(ng-bind="user.Description")
+          td(ng-bind="user.AdMail")
+          td(ng-bind="user.LocationCity")
+          td(ng-bind="user.Division")
+          td(ng-bind="user.LocalJobTitle")
+          td(ng-bind="user.Department")
+          td(ng-bind="user.OperationalManagerAdMail")
+          td(ng-bind="user.CostCenter")
+          td(ng-bind="user.FamCodeLegalUnit")
+          td(ng-bind="user.CompanyFamCode")
+          td(ng-bind="user.CompanyName")
+
+  script(src='/cmdb/js/staffctrl.js',type='text/javascript')
