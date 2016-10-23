@@ -5,6 +5,7 @@ html(ng-app="staffApp")
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
+    <!--[if gt IE 8]><!-->
     block css
       link(rel='stylesheet', href='/cmdb/css/style.css')
       link(rel='stylesheet', href='/cmdb/css/bootstrap.min.css')
@@ -13,8 +14,11 @@ html(ng-app="staffApp")
       script(src='/cmdb/js/bootstrap.min.js',type='text/javascript')
     style.
       body { font: 13px Helvetica, Arial; }
+    <!--<![endif]-->
 
   body
+    <!--[if lte IE 8]> Internet Explorer error: "Unfortunately, your browser is too old to work on this website. Please upgrade your browser to the latest version." <![endif]-->
+    <!--[if gt IE 8]><!-->
     ul.nav.nav-tabs
       li(role='presentation',class={active: currentUrl === '/'})
           a(href='/cmdb')
@@ -37,3 +41,4 @@ html(ng-app="staffApp")
             li
                 span= loggedUser
     block content
+    <!--<![endif]-->
