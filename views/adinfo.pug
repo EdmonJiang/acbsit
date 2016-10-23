@@ -1,19 +1,25 @@
-doctype html
-html(ng-app="staffApp")
-  head
-    title ACBSIT NanJing
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-    block css
-      link(rel='stylesheet', href='/cmdb/css/style.css')
-      link(rel='stylesheet', href='/cmdb/css/bootstrap.min.css')
-    block script
-      script(src='/cmdb/js/jquery.min.js',type='text/javascript')
-      script(src='/cmdb/js/bootstrap.min.js',type='text/javascript')
-    style.
-      body { font: 13px Helvetica, Arial; }
+extends layout
 
-  body
-    form.form(metod="post")
-      input(type="text" name="username")
+append script
+      script(src='/cmdb/js/angular.min.js',type='text/javascript')
+      
+block content
+  .container(ng-controller="adCtrl")
+    h1 AD Information Query
+    br
+    br
+    form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
+      div
+        label.col-sm-2.control-label(for='site') Search:
+        .col-sm-6.search-box
+          input#qword.form-control(type='text' name="name" ng-model="username" placeholder="Please enter a sAMAccountName or firstname.lastname" autofocus)
+        .col-sm-4
+          h5(ng-class="errMsg.class" ng-bind="errMsg.text")
+
+    #siteinfo.info-box
+      table.table.table-striped.table-hover
+        tr(ng-repeat="(key, value) in userInfo")
+          th(ng-bind="key")
+          td(ng-bind="value")
+
+  script(src='/cmdb/js/adctrl.js',type='text/javascript')

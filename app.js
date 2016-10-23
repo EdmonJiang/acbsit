@@ -12,7 +12,7 @@ const server = app.listen(process.env.PORT||3000);
 mongoose.Promise = require('bluebird');
 mongoose.connect(config.uri);
 var db = mongoose.connection;
-db.on('open', function(){console.log('mongodb connected.')})
+//db.on('open', function(){console.log('mongodb connected.')})
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -23,12 +23,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/cmdb',express.static(path.join(__dirname, 'public')));
 
 app.use('/cmdb', function(req,res,next){
-  app.locals.currentUrl = req.path;
+  var url = req.path;
+  app.locals.currentUrl = url.search(/.*\/$/)?url+"/":url;
   app.locals.loggedUser = req.headers['x-iisnode-auth_user'];
   next();
 })
 app.use('/cmdb', require('./routes/index'))
 app.use('/cmdb/staff', require('./routes/staff'))
+app.use('/cmdb/adinfo', require('./routes/adinfo'))
+app.use('/cmdb/ipt', require('./routes/ipt'))
 
 app.all('*', function (req, res) {
   var ip = req.headers['x-forwarded-for']

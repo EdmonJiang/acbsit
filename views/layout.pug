@@ -24,6 +24,14 @@ html(ng-app="staffApp")
           a(href='/cmdb/staff/')
               span.glyphicon.glyphicon-user
               |&nbsp;Staff Info
+      li(role='presentation',class={active: currentUrl === '/adinfo/'})
+          a(href='/cmdb/adinfo/')
+              span.glyphicon.glyphicon-list
+              |&nbsp;AD Info
+      li(role='presentation',class={active: currentUrl === '/ipt/'})
+          a(href='/cmdb/ipt/')
+              span.glyphicon.glyphicon-phone-alt
+              |&nbsp;IPT Info
       .loguser-text.pull-right
         if loggedUser
             li

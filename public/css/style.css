@@ -18,7 +18,10 @@ body {
 .search-box{
   margin-bottom: 10px;
 }
+.info-box{
+  margin-top: 15px;
+}
 .loguser-text{
     margin-top: 12px;
-    margin-right: 18px;
+    margin-right: 18px; 
 }

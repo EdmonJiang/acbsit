@@ -12,7 +12,7 @@ block content
       div
         label.col-sm-2.control-label(for='site') Search:
         .col-sm-6.search-box
-          input#qword.form-control(type='text' name="q" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com")
+          input#qword.form-control(type='text' name="q" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
         .col-sm-2
           h5(ng-class="errMsg.class" ng-bind="errMsg.text")
       .col-sm-10.col-sm-offset-2
