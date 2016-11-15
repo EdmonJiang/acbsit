@@ -11,9 +11,9 @@ block content
     br
     form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
       div
-        label.col-sm-2.control-label(for='site') Search:
+        label.col-sm-2.control-label(for='qword') Search:
         .col-sm-6.search-box
-          input#qword.form-control(type='text' name="email" ng-model="email" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
+          input#qword.form-control(type='text' name="email" ng-disabled="searching" ng-model="email" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
         .col-sm-4
           h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 

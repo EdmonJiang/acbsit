@@ -1,0 +1,44 @@
+extends layout
+
+append script
+      script(src='/cmdb/js/angular.min.js',type='text/javascript')
+      
+block content
+  .container(ng-controller="snCtrl")
+    h1 DELL Warranty Information Query
+    br
+    br
+    form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
+      div
+        label.col-sm-2.control-label(for='qword') Search:
+        .col-sm-6.search-box
+          input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="DELL servicetag which length is 7 chars and only contains letters and numbers" autofocus)
+        .col-sm-4
+          h5(ng-class="errMsg.class" ng-bind="errMsg.text")
+
+    #assetheader.info-box(ng-show="assetheader")
+      table.table.table-bordered.table-striped.table-hover
+        thead
+          tr
+            th Service Tag
+            th Ship Date
+            th Description
+        tbody
+          tr
+            td(ng-bind="assetheader.ServiceTag")
+            td(ng-bind="assetheader.ShipDate")
+            td(ng-bind="assetheader.MachineDescription")
+    #assetdata.info-box(ng-show="assetdata")
+      table.table.table-bordered.table-striped.table-hover
+        thead
+          tr
+            th Service
+            th Start Date
+            th End Date
+        tbody
+          tr(ng-repeat="asset in assetdata")
+            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.ServiceLevelDescription")
+            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.StartDate")
+            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.EndDate")
+
+  script(src='/cmdb/js/snctrl.js',type='text/javascript')

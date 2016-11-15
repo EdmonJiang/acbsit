@@ -10,9 +10,9 @@ block content
     br
     form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
       div
-        label.col-sm-2.control-label(for='site') Search:
+        label.col-sm-2.control-label(for='qword') Search:
         .col-sm-6.search-box
-          input#qword.form-control(type='text' name="name" ng-model="username" placeholder="Please enter a sAMAccountName or firstname.lastname" autofocus)
+          input#qword.form-control(type="text" ng-disabled="searching" ng-model="username" placeholder="Please enter a logon name or firstname.lastname" autofocus)
         .col-sm-4
           h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 

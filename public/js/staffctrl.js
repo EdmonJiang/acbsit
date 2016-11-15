@@ -2,7 +2,8 @@ var staffApp = angular.module('staffApp', []);
 
 staffApp.controller('staffCtrl', ['$scope', '$http', 
 	function($scope, $http){
-		$scope.users = []
+		$scope.users = [];
+		$scope.searching = false;
 		$scope.errMsg = {
 			text: "",
 			class: "text-danger"};
@@ -20,9 +21,11 @@ staffApp.controller('staffCtrl', ['$scope', '$http',
 			if(data.value){
 				//console.log(data);
 				if(data.key==="ManagerMail"){
+					$scope.searching = true;
 					getby_manageremail(data);
 				}
 				else{
+					$scope.searching = true;
 					getby_email(data);
 				}
 			}else{
@@ -44,6 +47,7 @@ staffApp.controller('staffCtrl', ['$scope', '$http',
 		        	$scope.errMsg.text = "Nothing Found!";
 		        	$scope.errMsg.class = "text-danger";
 		        }
+		        $scope.searching = false;
 		    });
 		};
 

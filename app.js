@@ -1,12 +1,14 @@
 'use strict';
 const express = require('express'),
     path = require('path'),
+    favicon = require('serve-favicon'),
     mongoose = require('mongoose'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
     config = require('./config/config');
 
 const app = express();
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
 const server = app.listen(process.env.PORT||3000);
 mongoose.Promise = require('bluebird');
@@ -32,11 +34,12 @@ app.use('/cmdb', require('./routes/index'))
 app.use('/cmdb/staff', require('./routes/staff'))
 app.use('/cmdb/adinfo', require('./routes/adinfo'))
 app.use('/cmdb/ipt', require('./routes/ipt'))
+app.use('/cmdb/warranty', require('./routes/warranty'))
 
 app.all('*', function (req, res) {
   var ip = req.headers['x-forwarded-for']
   var dir = __dirname
-    res.send('Hello World! url: '+req.url+', your ip: '+ip+req.path);
+  res.send('Hello '+ app.locals.loggedUser +', welcome to visit "'+req.url+'", but nothing here! <a href="/cmdb">Back to HomePage</a><br />Your IP Address: '+ip);
 });
 
 server.on('error', onError);

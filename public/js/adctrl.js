@@ -2,8 +2,9 @@ var adApp = angular.module('staffApp', []);
 
 adApp.controller('adCtrl', ['$scope', '$http', 
 	function($scope, $http){
-		$scope.userInfo = {}
-		$scope.username = ""
+		$scope.userInfo = {};
+		$scope.username = "";
+		$scope.searching = false;
 		$scope.errMsg = {
 			text: "",
 			class: "text-danger"};
@@ -12,7 +13,8 @@ adApp.controller('adCtrl', ['$scope', '$http',
 			$scope.errMsg.text = "Searching ...";
 			$scope.errMsg.class = "text-muted";
 			if(queryname){
-				console.log(queryname);
+				//console.log(queryname);
+				$scope.searching = true;
 				getby_email(queryname);
 				
 			}else{
@@ -24,7 +26,7 @@ adApp.controller('adCtrl', ['$scope', '$http',
 		var getby_email = function(name){
 		    //console.log($scope.contact);
 		    $http.get('http://nanjingit.apac.group.atlascopco.com/?name='+name).success(function(response){
-		        console.log(response)
+		        //console.log(response)
 		        if (response.error) {
 		        	$scope.errMsg.text = response.error;
 		        	$scope.errMsg.class = "text-danger";
@@ -32,15 +34,7 @@ adApp.controller('adCtrl', ['$scope', '$http',
 		        	$scope.userInfo = response;
 		        	$scope.errMsg.text = '1 record found for "'+name+'".';
 		        }
-		        // if(response[0]){
-			       //  $scope.users = response;
-			       //  $scope.errMsg.text = response.length + ' records found.';
-			       //  $scope.errMsg.class = "text-success"
-			       //  //console.log($scope.users);
-		        // }else{
-		        // 	$scope.errMsg.text = "Nothing Found!";
-		        // 	$scope.errMsg.class = "text-danger";
-		        // }
+		        $scope.searching = false;
 		    });
 		};
 

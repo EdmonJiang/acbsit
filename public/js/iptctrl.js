@@ -4,7 +4,7 @@ iptApp.controller('iptCtrl', ['$scope', '$http', '$sce',
 	function($scope, $http, $sce){
 		$scope.userInfo = ""
 		$scope.email = ""
-		
+		$scope.searching = false;
 		$scope.errMsg = {
 			text: "",
 			class: "text-danger"};
@@ -14,6 +14,7 @@ iptApp.controller('iptCtrl', ['$scope', '$http', '$sce',
 			$scope.errMsg.class = "text-muted";
 			if(queryname){
 				//console.log(queryname);
+				$scope.searching = true;
 				getby_email(queryname);
 				
 			}else{
@@ -35,6 +36,7 @@ iptApp.controller('iptCtrl', ['$scope', '$http', '$sce',
 		        	var tr = response.match(/<tr.*?(?=>)(.|\n)*?<\/tr>/g);
 		        	$scope.errMsg.text = (tr?tr.length:0) +' records found for "'+email+'".';
 		        }
+		        $scope.searching = false;
 		    });
 		};
 

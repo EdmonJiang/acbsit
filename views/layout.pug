@@ -36,6 +36,10 @@ html(ng-app="staffApp")
           a(href='/cmdb/ipt/')
               span.glyphicon.glyphicon-phone-alt
               |&nbsp;IPT Info
+      li(role='presentation',class={active: currentUrl === '/warranty/'})
+          a(href='/cmdb/warranty/')
+              span.glyphicon.glyphicon-thumbs-up
+              |&nbsp;DELL Warranty
       .loguser-text.pull-right
         if loggedUser
             li
