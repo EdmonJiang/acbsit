@@ -20,6 +20,9 @@ html(ng-app="staffApp")
     <!--[if lte IE 8]> Internet Explorer error: "Unfortunately, your browser is too old to work on this website. Please upgrade your browser to the latest version." <![endif]-->
     <!--[if gt IE 8]><!-->
     ul.nav.nav-tabs
+      //
+        li(role='presentation')
+            img(src='/cmdb/img/atlas_logo.png' style={height:'38px'})
       li(role='presentation',class={active: currentUrl === '/'})
           a(href='/cmdb')
               span.glyphicon.glyphicon-globe

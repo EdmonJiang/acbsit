@@ -22,11 +22,13 @@ block content
           tr
             th Service Tag
             th Ship Date
+            th Country Code
             th Description
         tbody
           tr
             td(ng-bind="assetheader.ServiceTag")
             td(ng-bind="assetheader.ShipDate | date:'yyyy-MM-dd'")
+            td(ng-bind="assetheader.CountryLookupCode")
             td(ng-bind="assetheader.MachineDescription")
     #assetdata.info-box(ng-show="assetdata")
       table.table.table-bordered.table-striped.table-hover

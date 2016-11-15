@@ -30,7 +30,7 @@ snApp.controller('snCtrl', ['$scope', '$http',
 		var getWarrantyBy_sn = function(sn){
 		    //console.log($scope.contact);
 		    $http.post('http://nanjingit.apac.group.atlascopco.com/cmdb/warranty/', {sn:sn}).success(function(response){
-		        console.log(response)
+		        //console.log(response)
 		        if (response.error) {
 		        	$scope.errMsg.text = response.error;
 		        	$scope.errMsg.class = "text-danger";
