@@ -26,7 +26,7 @@ block content
         tbody
           tr
             td(ng-bind="assetheader.ServiceTag")
-            td(ng-bind="assetheader.ShipDate")
+            td(ng-bind="assetheader.ShipDate | date:'yyyy-MM-dd'")
             td(ng-bind="assetheader.MachineDescription")
     #assetdata.info-box(ng-show="assetdata")
       table.table.table-bordered.table-striped.table-hover
@@ -38,7 +38,7 @@ block content
         tbody
           tr(ng-repeat="asset in assetdata")
             td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.ServiceLevelDescription")
-            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.StartDate")
-            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.EndDate")
+            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.StartDate | date:'yyyy-MM-dd'")
+            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.EndDate | date:'yyyy-MM-dd'")
 
   script(src='/cmdb/js/snctrl.js',type='text/javascript')
