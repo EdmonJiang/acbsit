@@ -1,3 +1,9 @@
+$(function(){
+	$('#btnpopover').popover({
+		html: true
+	});
+
+})
 var snApp = angular.module('staffApp', []);
 
 snApp.controller('snCtrl', ['$scope', '$http', 

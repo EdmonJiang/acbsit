@@ -5,14 +5,15 @@ append script
       
 block content
   .container(ng-controller="snCtrl")
-    h1 DELL Warranty Information Query
+    h1 DELL Warranty Information Query&nbsp;
+      a#btnpopover.btn.btn-info.btn-sm(href="#" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="How to find service tag?" data-content="1. On the back cover of laptop or on the computer chassis.<br> 2. Using command prompt.<br> Windows: run - cmd, wmic bios get serialnumber.<br> Linux: Open a termianl, sudo dmidecode -s system-serial-number." style={padding:"2px 10px"}) How to find service tag?
     br
     br
     form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
       div
         label.col-sm-2.control-label(for='qword') Search:
         .col-sm-6.search-box
-          input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="DELL servicetag which length is 7 chars and only contains letters and numbers" autofocus)
+          input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="DELL service tag is a 7-character code and only contains letters and numbers" autofocus)
         .col-sm-4
           h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 
