@@ -1,37 +1,38 @@
 extends layout
 
 append script
-      script(src='/cmdb/js/angular.min.js',type='text/javascript')
+      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
       
 block content
   .staffContainer(ng-controller="staffCtrl")
-    h1 AC Staff Information Query
-    br
-    br
-    form#site-form.form-horizontal(ng-submit="submitInfo()")
-      div
-        label.col-sm-2.control-label(for='site') Search:
-        .col-sm-6.search-box
-          input#qword.form-control(type='text' name="q" ng-disabled="searching" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
-        .col-sm-2
-          h5(ng-class="errMsg.class" ng-bind="errMsg.text")
-      .col-sm-10.col-sm-offset-2
-        .panel
-          label.radio-inline
-            input(type="radio" name="key" ng-model="form.key" id="AdMail" value="AdMail" ng-checked="true" title="firstname.lastname or firstname.lastname@xx.atlascopco.com")
-            |Email
-          label.radio-inline
-            input(type="radio" name="key" ng-model="form.key" id="ManagerMail" value="ManagerMail" title="Search users by whose manager's email address")
-            |Manager's email
-          label.radio-inline
-            input(type="radio" name="key" ng-model="form.key" id="LocalJobTitle" value="LocalJobTitle" title="Search users by local job title")
-            |Local Job Title  
-          label.radio-inline
-            input(type="radio" name="key" ng-model="form.key" id="CostCenter" value="CostCenter" title="Search users by Cost Center")
-            |Cost Center    
-          label.radio-inline
-            input(type="radio" name="key" ng-model="form.key" id="Department" value="Department" title="Search users by department name")
-            |Department
+    .container
+      h1 AC Staff Information Query
+      br
+      br
+      form#site-form.form-horizontal(ng-submit="submitInfo()")
+        div.row
+          label.col-sm-1.search-label(for='site') Search:
+          .col-sm-6.search-box
+            input#qword.form-control(type='text' name="q" ng-disabled="searching" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
+          .col-sm-2
+            h5(ng-class="errMsg.class" ng-bind="errMsg.text")
+        .col-sm-10.col-sm-offset-1
+          .panel
+            label.radio-inline
+              input(type="radio" name="key" ng-model="form.key" id="AdMail" value="AdMail" ng-checked="true" title="firstname.lastname or firstname.lastname@xx.atlascopco.com")
+              |Email
+            label.radio-inline
+              input(type="radio" name="key" ng-model="form.key" id="OperationalManagerAdMail" value="OperationalManagerAdMail" title="Search users by whose manager's email address")
+              |Manager's email
+            label.radio-inline
+              input(type="radio" name="key" ng-model="form.key" id="LocalJobTitle" value="LocalJobTitle" title="Search users by local job title")
+              |Local Job Title  
+            label.radio-inline
+              input(type="radio" name="key" ng-model="form.key" id="CostCenter" value="CostCenter" title="Search users by Cost Center")
+              |Cost Center    
+            label.radio-inline
+              input(type="radio" name="key" ng-model="form.key" id="Department" value="Department" title="Search users by department name")
+              |Department
 
     #siteinfo
       table.table.table-striped.table-hover
@@ -60,4 +61,13 @@ block content
           td(ng-bind="user.CompanyFamCode")
           td(ng-bind="user.CompanyName")
 
-  script(src='/cmdb/js/staffctrl.js',type='text/javascript')
+  script(src='/cmdb/js/njctrl.js',type='text/javascript')
+  script.
+    $(function() {
+        (function() {
+            $("input:radio").on("click", function() {
+                var tip = $(this).attr("title");
+                $("#qword").attr("placeholder", tip);
+            })
+        })();
+    });

@@ -3,7 +3,7 @@ const request = require('request')
 const cheerio = require('cheerio')
 
 router.get('/', function (req, res) {
-  res.render('ipt', {});
+  res.render('ipt');
 })
 
 router.post('/', function (req, res) {

@@ -7,7 +7,8 @@ const headers = {'Content-Type': 'application/x-www-form-urlencoded',
            		 'apikey': config.key}
 
 router.get('/', function (req, res) {
-  res.render('warranty', {});
+  //res.setHeader('Cache-Control', 'public, max-age=86400');
+  res.render('warranty');
 })
 
 router.post('/', function (req, res) {

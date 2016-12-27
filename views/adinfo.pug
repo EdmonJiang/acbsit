@@ -1,25 +1,25 @@
 extends layout
 
 append script
-      script(src='/cmdb/js/angular.min.js',type='text/javascript')
+      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
       
 block content
   .container(ng-controller="adCtrl")
-    h1 AD Information Query
+    h1 AD User Information Query
     br
     br
     form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
-      div
-        label.col-sm-2.control-label(for='qword') Search:
+      div.row
+        label.col-sm-1.search-label(for='qword') Search:
         .col-sm-6.search-box
           input#qword.form-control(type="text" ng-disabled="searching" ng-model="username" placeholder="Please enter a logon name or firstname.lastname" autofocus)
         .col-sm-4
           h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 
-    #siteinfo.info-box
+    #siteinfo.info-box(class="ng-hide" ng-show="userInfo")
       table.table.table-striped.table-hover
         tr(ng-repeat="(key, value) in userInfo")
           th(ng-bind="key")
           td(ng-bind="value")
 
-  script(src='/cmdb/js/adctrl.js',type='text/javascript')
+  script(src='/cmdb/js/njctrl.js',type='text/javascript')

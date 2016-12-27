@@ -1,8 +1,8 @@
 extends layout
 
 append script
-      script(src='/cmdb/js/angular.min.js',type='text/javascript')
-      script(src='/cmdb/js/angular-sanitize.min.js',type='text/javascript')
+      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
+      script(src='https://unpkg.com/angular-sanitize@1.5.8/angular-sanitize.min.js',type='text/javascript')
       
 block content
   .container(ng-controller="iptCtrl")
@@ -10,14 +10,14 @@ block content
     br
     br
     form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
-      div
-        label.col-sm-2.control-label(for='qword') Search:
+      div.row
+        label.col-sm-1.search-label(for='qword') Search:
         .col-sm-6.search-box
           input#qword.form-control(type='text' name="email" ng-disabled="searching" ng-model="email" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
         .col-sm-4
           h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 
-    #siteinfo.info-box(style={overflow:'scroll', 'margin-bottom':'25px'} ng-show="userInfo")
+    #siteinfo.info-box(style={overflow:'scroll', 'margin-bottom':'25px'} class="ng-hide" ng-show="userInfo")
       div(ng-bind-html="userInfo")
 
-  script(src='/cmdb/js/iptctrl.js',type='text/javascript')
+  script(src='/cmdb/js/njctrl.js',type='text/javascript')

@@ -1,0 +1,31 @@
+extends layout
+
+append script
+      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
+      
+block content
+  .container(ng-controller="awCtrl")
+    h1 Airwatch Category&nbsp;
+
+    .info-box
+      table.table.table-bordered.table-striped.table-hover
+        thead
+          tr
+            th Email
+            th Country
+            th Company FAM Code
+            th Legal FAM Code
+            th Enroll Status
+            th Devices Count
+        tbody
+          tr(ng-repeat="user in users")
+            td(ng-bind="user.Email")
+            td(ng-bind="user.Country")
+            td(ng-bind="user.Company")
+            td(ng-bind="user.Staff_Legal")
+            td(ng-bind="user.Enrolled")
+            td(ng-bind="user.EnrolledDevicesCount ? user.EnrolledDevicesCount : 0")
+      span.pull-right 
+        strong total: {{count}}
+
+  script(src='/cmdb/js/awctrl.js',type='text/javascript')

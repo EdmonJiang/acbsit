@@ -8,50 +8,45 @@ html(ng-app="staffApp")
     <!--[if gt IE 8]><!-->
     block css
       link(rel='stylesheet', href='/cmdb/css/style.css')
-      link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css')
+      link(rel='stylesheet', href='https://unpkg.com/bootstrap@3.3.5/dist/css/bootstrap.min.css')
       //-
         link(rel='stylesheet', href='/cmdb/css/bootstrap.min.css')
     block script
-      script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js',type='text/javascript')
-      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js',type='text/javascript')
+      script(src='https://unpkg.com/jquery@1.12.4/dist/jquery.min.js',type='text/javascript')
+      script(src='https://unpkg.com/bootstrap@3.3.5/dist/js/bootstrap.min.js',type='text/javascript')
       //-
         script(src='/cmdb/js/jquery.min.js',type='text/javascript')
         script(src='/cmdb/js/bootstrap.min.js',type='text/javascript')
-    style.
-      body { font: 13px Helvetica, Arial; }
     <!--<![endif]-->
 
   body
     <!--[if lte IE 8]> Internet Explorer error: "Unfortunately, your browser is too old to work on this website. Please upgrade your browser to the latest version." <![endif]-->
     <!--[if gt IE 8]><!-->
-    ul.nav.nav-tabs
-      //-
-        li(role='presentation')
-            img(src='/cmdb/img/atlas_logo.png' style={height:'38px'})
-      li(role='presentation',class={active: currentUrl === '/'})
-          a(href='/cmdb')
-              span.glyphicon.glyphicon-globe
-              |&nbsp;Site Info
-      li(role='presentation',class={active: currentUrl === '/staff/'})
-          a(href='/cmdb/staff/')
-              span.glyphicon.glyphicon-user
-              |&nbsp;Staff Info
-      li(role='presentation',class={active: currentUrl === '/adinfo/'})
-          a(href='/cmdb/adinfo/')
-              span.glyphicon.glyphicon-list
-              |&nbsp;AD Info
-      li(role='presentation',class={active: currentUrl === '/ipt/'})
-          a(href='/cmdb/ipt/')
-              span.glyphicon.glyphicon-phone-alt
-              |&nbsp;IPT Info
-      li(role='presentation',class={active: currentUrl === '/warranty/'})
-          a(href='/cmdb/warranty/')
-              span.glyphicon.glyphicon-thumbs-up
-              |&nbsp;DELL Warranty
-      .loguser-text.pull-right
-        if loggedUser
-            li
-                span= loggedUser
+    .c-row.c-row--header.c-row--relative
+      .o-grid
+        .o-grid__item
+          .logo-menu(style='width:920px')
+            p.c-logo
+              a.c-logo__link(href='/cmdb') Atlas Copco
+            nav.c-nav-ba
+              ul.o-list.c-nav-main-ba-ba
+                li.c-nav-main-ba__item(class={active: currentUrl === '/site/'})
+                    a.c-nav-main-ba__link(href='/cmdb/site/') Site Info
+                li.c-nav-main-ba__item(class={active: currentUrl === '/staff/'})
+                  a.c-nav-main-ba__link(href='/cmdb/staff/') Staff Info
+                li.c-nav-main-ba__item(class={active: currentUrl === '/adinfo/'})
+                  a.c-nav-main-ba__link(href='/cmdb/adinfo/') AD User
+                li.c-nav-main-ba__item(class={active: currentUrl === '/ipt/'})
+                  a.c-nav-main-ba__link(href='/cmdb/ipt/') IPT Info
+                li.c-nav-main-ba__item(class={active: currentUrl === '/warranty/'})
+                  a.c-nav-main-ba__link(href='/cmdb/warranty/') Warranty
+                //-
+                  li.c-nav-main-ba__item(class={active: currentUrl === '/thinkpad/'})
+                    a.c-nav-main-ba__link(href='/cmdb/thinkpad/') Thinkpad Warranty
+          .c-nav-ba-aside
+            if loggedUser
+              span.c-nav-cta.c-nav-cta--global User: #{loggedUser}
+    .c-row.c-row--divider
     block content
     block footer
       div(style={position:"fixed",left:"10px",bottom:"5px"})

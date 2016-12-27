@@ -1,47 +1,136 @@
 extends layout
 
 append script
-      script(src='/cmdb/js/angular.min.js',type='text/javascript')
+      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
       
 block content
-  .container(ng-controller="snCtrl")
-    h1 DELL Warranty Information Query&nbsp;
-      a#btnpopover.btn.btn-info.btn-sm(href="#" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="How to find service tag?" data-content="1. On the back cover of laptop or on the computer chassis.<br> 2. Using command prompt.<br> Windows: run - cmd, wmic bios get serialnumber.<br> Linux: Open a termianl, sudo dmidecode -s system-serial-number." style={padding:"2px 10px"}) How to find service tag?
-    br
-    br
-    form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
-      div
-        label.col-sm-2.control-label(for='qword') Search:
-        .col-sm-6.search-box
-          input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="DELL service tag is a 7-character code and only contains letters and numbers" autofocus)
-        .col-sm-4
-          h5(ng-class="errMsg.class" ng-bind="errMsg.text")
+  .container.warranty-body
+    ul.nav.nav-tabs
+      li.active
+        a.optionsTab(href="#tab1" data-toggle="tab" aria-expanded="true") DELL
+      li
+        a.optionsTab(href="#tab2" data-toggle="tab" aria-expanded="false") Thinkpad
+    .tab-content
+      .tab-pane#tab1.active(ng-controller="snCtrl")
+        h1 DELL Warranty Information Query&nbsp;
+          a#btnpopover.btn.btn-info.btn-sm(href="#" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="How to find service tag?" data-content="1. On the back cover of laptop or on the computer chassis.<br> 2. Using command prompt.<br> Windows: run - cmd, wmic bios get serialnumber.<br> Linux: Open a termianl, sudo dmidecode -s system-serial-number." style={padding:"0px 8px"}) How to find service tag?
+        br
+        br
+        form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
+          div.row
+            label.col-sm-1.search-label(for='qword') Search:
+            .col-sm-6.search-box
+              input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="DELL service tag is a 7-character code and only contains letters and numbers" autofocus)
+            .col-sm-4
+              h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 
-    #assetheader.info-box(ng-show="assetheader")
-      table.table.table-bordered.table-striped.table-hover
-        thead
-          tr
-            th Service Tag
-            th Ship Date
-            th Country Code
-            th Description
-        tbody
-          tr
-            td(ng-bind="assetheader.ServiceTag")
-            td(ng-bind="assetheader.ShipDate | date:'yyyy-MM-dd'")
-            td(ng-bind="assetheader.CountryLookupCode")
-            td(ng-bind="assetheader.MachineDescription")
-    #assetdata.info-box(ng-show="assetdata")
-      table.table.table-bordered.table-striped.table-hover
-        thead
-          tr
-            th Service
-            th Start Date
-            th End Date
-        tbody
-          tr(ng-repeat="asset in assetdata")
-            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.ServiceLevelDescription")
-            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.StartDate | date:'yyyy-MM-dd'")
-            td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.EndDate | date:'yyyy-MM-dd'")
+        #assetheader.info-box(class="ng-hide" ng-show="assetheader")
+          table.table.table-bordered.table-striped.table-hover
+            thead
+              tr
+                th Service Tag
+                th Ship Date
+                th Country Code
+                th Description
+            tbody
+              tr
+                td(ng-bind="assetheader.ServiceTag")
+                td(ng-bind="assetheader.ShipDate | date:'yyyy-MM-dd'")
+                td(ng-bind="assetheader.CountryLookupCode")
+                td(ng-bind="assetheader.MachineDescription")
+        #assetdata.info-box(class="ng-hide" ng-show="assetdata")
+          table.table.table-bordered.table-striped.table-hover
+            thead
+              tr
+                th Service
+                th Start Date
+                th End Date
+            tbody
+              tr(ng-repeat="asset in assetdata")
+                td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.ServiceLevelDescription")
+                td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.StartDate | date:'yyyy-MM-dd'")
+                td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.EndDate | date:'yyyy-MM-dd'")
+      .tab-pane#tab2(ng-controller="thinkCtrl")
+        h1 Thinkpad Warranty Information Query&nbsp;
+          a.btn.btn-info.btn-sm(type='button', data-toggle='modal', data-target='.bs-example-modal-lg' style={padding:"0px 8px"}) How to find serial number?
+        br
+        br
+        form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
+          div.row
+            label.col-sm-1.search-label(for='qword') Search:
+            .col-sm-6.search-box
+              input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="Enter the serial number of your thinkpad." autofocus)
+            .col-sm-4
+              h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 
-  script(src='/cmdb/js/snctrl.js',type='text/javascript')
+        .info-box
+          .result_left(class="ng-hide" ng-show="assets.WarrantyData")
+            table.table.table-bordered.table-striped.table-hover
+              tbody
+                tr
+                  th Type:
+                  td(ng-bind="assets.WarrantyData[0].NodeName")
+                tr
+                  th SN:
+                  td(ng-bind="assets.WarrantyData[0].MachineNo")
+                tr
+                  th Ship Date:
+                  td(ng-bind="assets.WarrantyData[0].ScanDate")            
+                tr
+                  th Expired Date:
+                  td(ng-bind="assets.WarrantyData[0].OutTimeDate")
+                tr
+                  td(colspan="2" style={"text-align":"center"})
+                    img(ng-src="{{assets.WarrantyData[0].CategropImgURL}}" style={width:"200px"})
+          .result_right
+            .service_table(class="ng-hide" ng-show="assets.ServiceData")
+              table.table.table-bordered.table-striped.table-hover
+                thead
+                  tr
+                    th Service
+                    th Start Date
+                    th End Date
+                tbody
+                  tr
+                    td 部件保修
+                    td(ng-bind="assets.WarrantyData[0].PartStartDate")
+                    td(ng-bind="assets.WarrantyData[0].PartEndDate")
+                  tr
+                    td 人工服务
+                    td(ng-bind="assets.WarrantyData[0].LaborStartDate")
+                    td(ng-bind="assets.WarrantyData[0].LaborEndDate")
+                  tr
+                    td 上门服务
+                    td(ng-bind="assets.WarrantyData[0].OnsiteStartDate")
+                    td(ng-bind="assets.WarrantyData[0].OnsiteEndDate")
+                  tr(ng-repeat="asset in assets.ServiceData")
+                    td(ng-if="asset.ServiceProductName" ng-bind="asset.ServiceProductName")
+                    td(ng-if="asset.ServiceProductName" ng-bind="asset.ServiceStartDate")
+                    td(ng-if="asset.ServiceProductName" ng-bind="asset.ServiceEndDate")
+            .config_table(class="ng-hide" ng-show="assets.ConfigData")
+              table.table.table-bordered.table-striped.table-hover
+                thead
+                  tr
+                    th Name
+                    th Description
+                    th Number
+                tbody
+                  tr(ng-repeat="asset in assets.ConfigData")
+                    td(ng-if="asset.Name" ng-bind="asset.Name")
+                    td(ng-if="asset.Name" ng-bind="asset.Notes")
+                    td(ng-if="asset.Name" ng-bind="asset.Numer")
+  .modal.fade.bs-example-modal-lg(tabindex='-1', role='dialog', aria-labelledby='myLargeModalLabel', aria-hidden='true')
+    .modal-dialog.modal-lg
+      .modal-content
+        .modal-body
+          img.img-responsive(src='http://think.lenovo.com.cn/service/warranty/images/search_img.png', alt='serial number composed by model and sn.')
+
+  script(src='/cmdb/js/njctrl.js',type='text/javascript')
+  script.
+    $(function() {
+        (function() {
+            $('#btnpopover').popover({
+                html: true
+            });
+        })();
+    });

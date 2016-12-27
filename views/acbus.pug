@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=gb2312')
+    meta(name='keywords', content='百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具')
+    meta(name='description', content='百度地图API自定义地图，帮助用户在可视化操作下生成百度地图')
+    title 百度地图API自定义地图
+    // 引用百度地图API
+    style(type='text/css').
+      html,body{margin:0;padding:0;}
+      .iw_poi_title {color:#CC5522;font-size:14px;font-weight:bold;overflow:hidden;padding-right:13px;white-space:nowrap}
+      .iw_poi_content {font:12px arial,sans-serif;overflow:visible;padding-top:4px;white-space:-moz-pre-wrap;word-wrap:break-word}
+    script(type='text/javascript', src='http://api.map.baidu.com/api?key=zqoF5UAexFl6jrqvAyG98xFQ&v=1.1&services=true')
+  body
+    // 百度地图容器
+    div(style='margin-top:20px;')
+      #dituContent(style='width:90vmax;height:90vmin;border:#ccc solid 1px;margin: 0 auto;')
+  script(src='/cmdb/js/bus1.js',type='text/javascript')

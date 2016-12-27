@@ -22,7 +22,7 @@ router.get('/', function (req, res) {
             return ip.subnet(arr[0].trim(), arr[1].trim()).contains(v)
           })
 
-        if(results[0].length>10){
+        if(results[0] && results[0].length>10){
           Site.find({Subnets: results[0]}).limit(10).lean().exec(function(err, sites){
             if(err){return res.render('index', {errors: 'IP Query Error!'})};
             if(sites.length>0){
@@ -40,6 +40,9 @@ router.get('/', function (req, res) {
           return
         }
         
+      }, function (err) {
+        res.render('index', {errors: "Nothing found!", keyword: v, key: k});
+        return
       })
 
     }else{
