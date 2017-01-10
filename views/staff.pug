@@ -11,13 +11,13 @@ block content
       br
       form#site-form.form-horizontal(ng-submit="submitInfo()")
         div.row
-          label.col-sm-1.search-label(for='site') Search:
+          label.col-sm-2.col-sm-offset-1.search-label(for='site') Search:
           .col-sm-6.search-box
             input#qword.form-control(type='text' name="q" ng-disabled="searching" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
-          .col-sm-2
+          .col-sm-3
             h5(ng-class="errMsg.class" ng-bind="errMsg.text")
         .col-sm-10.col-sm-offset-1
-          .panel
+          .panel(style={"text-align":"center"})
             label.radio-inline
               input(type="radio" name="key" ng-model="form.key" id="AdMail" value="AdMail" ng-checked="true" title="firstname.lastname or firstname.lastname@xx.atlascopco.com")
               |Email

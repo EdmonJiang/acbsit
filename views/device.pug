@@ -1,0 +1,112 @@
+doctype html
+html
+  head
+    title ACBSIT NanJing
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    <!--[if gt IE 8]><!-->
+    link(rel='stylesheet', href='https://unpkg.com/bootstrap@3.3.5/dist/css/bootstrap.min.css')
+    script(src='https://unpkg.com/jquery@1.12.4/dist/jquery.min.js',type='text/javascript')
+    script(src='https://unpkg.com/bootstrap@3.3.5/dist/js/bootstrap.min.js',type='text/javascript')
+    style.
+      .triangle{
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: 2px;
+        vertical-align: middle;
+        border-top: 9px dashed;
+        border-top: 4px solid\9;
+        border-right: 6px solid transparent;
+        border-left: 6px solid transparent;
+      }
+    <!--<![endif]-->
+
+  body(style={"overflow-y": "scroll"})
+    <!--[if lte IE 8]> Internet Explorer error: "Unfortunately, your browser is too old to work on this website. Please upgrade your browser to the latest version." <![endif]-->
+    <!--[if gt IE 8]><!-->
+    .container
+      h1 Device Details - #{email}
+      #accordion.panel-group(role='tablist' aria-multiselectable='true')
+        each device, index in devices
+          .panel.panel-default
+            .panel-heading(role='tab' id='heading' + index)
+              h4.panel-title
+                a(data-toggle='collapse' data-parent='#accordion' href='#device' + index aria-controls='device' + index)
+                  = device.Model
+                  |&nbsp;
+                  span.triangle
+            .panel-collapse.collapse(id='device' + index role='tabpanel' aria-labelledby='heading' + index)
+              .panel-body
+                table.table.table-striped.table-hover.table-condensed
+                  tr
+                    th Group ID
+                    th Country
+                    th Legal Staff
+                    th Legal AD
+                    th Company
+                    th UserName
+                    th PhoneNumber
+                    th Email Address
+                  tr
+                    td= device.LocationGroupName
+                    td= device.Country
+                    td= device.LEGAL_AD
+                    td= device.Staff_Legal
+                    td= device.Company
+                    td= device.UserIdent
+                    td= device.PhoneNumber
+                    td= device.UserEmailAddress
+
+                table.table.table-striped.table-hover.table-condensed
+                  tr
+                    th Platform
+                    th Model
+                    th Device Frendly Name
+                    th IMEI
+                    th Mac Address
+                    th Ownership
+                    th Enroll Status
+                    th Compliance
+                  tr
+                    td= device.Platform
+                    td= device.Model
+                    td= device.DeviceFriendlyName
+                    td= device.Imei
+                    td= device.MacAddress
+                    td= device.Ownership
+                    td= device.EnrollmentStatus
+                    td= device.ComplianceStatus
+
+                table.table.table-striped.table-hover.table-condensed
+                  colgroup
+                    col(width='20%')
+                  tr
+                    th Last Scanned
+                    td= device.LastScanned
+                  tr
+                    th Last Seen
+                    td= device.LastSeen
+                  tr
+                    th Last Enrolled On
+                    td= device.LastEnrolledOn
+                  tr
+                    th Last Compliance Check On
+                    td= device.LastComplianceCheckOn
+                  tr
+                    th Last Compromised Check On
+                    td= device.LastCompromisedCheckOn
+                  tr
+                    th Policies
+                    td= device.Policies
+
+                  // -
+                    each key, value in device
+                      tr
+                        th= value
+                        td= key
+    block footer
+      div(style={position:"fixed",left:"10px",bottom:"5px"})
+        |Powered by ACBSIT, Naning, China&nbsp;&copy; 2016-2018 Edmon Jiang
+    <!--<![endif]-->

@@ -7,9 +7,9 @@ router.get('/', function (req, res) {
 
   if(req.query.q && req.query.key){
     //console.log('query not empty')
-    let query = {};
-    let k = req.query.key.trim()
-    let v = req.query.q.trim()
+    var query = {};
+    var k = req.query.key.trim()
+    var v = req.query.q.trim()
     query[k] = new RegExp('\^'+v, 'i');
 
     if(k === 'Subnets' && ValidateIPaddress(v)){
@@ -17,7 +17,7 @@ router.get('/', function (req, res) {
       var promise = Site.find().distinct('Subnets').exec()
       promise.then(function(docs){
         var results = docs.filter(function(item){
-            let arr = item.split('/')
+            var arr = item.split('/')
             if(arr.length !== 2){return false;}
             return ip.subnet(arr[0].trim(), arr[1].trim()).contains(v)
           })
@@ -27,7 +27,7 @@ router.get('/', function (req, res) {
             if(err){return res.render('index', {errors: 'IP Query Error!'})};
             if(sites.length>0){
               //console.log(sites)
-              for(let site of sites){
+              for(var site of sites){
                 delete site["_id"];
               }
               res.render('index',{infos: sites, keyword: v, key: k})
@@ -51,7 +51,7 @@ router.get('/', function (req, res) {
         if(err){return res.render('index', {errors: 'Query Error!'})};
         if(sites.length>0){
           //console.log(sites)
-          for(let site of sites){
+          for(var site of sites){
             delete site["_id"];
           }
           res.render('index',{infos: sites, keyword: v, key: k})

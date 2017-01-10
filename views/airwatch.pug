@@ -1,31 +1,107 @@
 extends layout
 
 append script
-      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
-      
+    script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
+    script(src='/cmdb/js/jquery.twbsPagination.min.js',type='text/javascript')
 block content
-  .container(ng-controller="awCtrl")
-    h1 Airwatch Category&nbsp;
-
+  .container(ng-controller="awCtrl" style={"margin-top":"15px"})
+    span.h1 AirWatch Category&nbsp;
+    a(href="https://ds556.awmdm.com/MyDevice/Login?ReturnUrl=%2fMyDevice%2fLanding%2f" target="_blank") Self-Service Portal
+    .pull-right
+      button(type="button" ng-click="Search()"  ng-disabled="isLoading" style={"padding":"4px 12px","width":"100px"}) Search
+      |&nbsp;&nbsp;
+      button(type="button" ng-click="Clear()" style={"padding":"4px 12px","width":"100px"}) Clear Filter
     .info-box
-      table.table.table-bordered.table-striped.table-hover
+      div(ng-show="isLoading" style={"position":"relative","width":"10vmin","margin":"0 auto"})
+        .loader-circle
+      table.table.table-bordered.table-striped.table-hover.table-condensed
+        colgroup
+          col
+          col(width="15%")
+          col(width="15%")
+          col(width="15%")
+          col
+          col(width="13%")
         thead
-          tr
-            th Email
-            th Country
-            th Company FAM Code
-            th Legal FAM Code
+          tr.aw-title
+            th.sort-title(ng-click="Sort('e')")
+              |Email&nbsp;
+              span(class="ng-hide" ng-show="sort === 'e'") &#8679;
+              span(class="ng-hide" ng-show="sort === 'ed'") &#8681;
+            th.sort-title(ng-click="Sort('c')")
+              |Country
+              span(class="ng-hide" ng-show="sort === 'c'") &#8679;
+              span(class="ng-hide" ng-show="sort === 'cd'") &#8681;
+            th.sort-title(ng-click="Sort('f')")
+              |Company FAM Code
+              span(class="ng-hide" ng-show="sort === 'f'") &#8679;
+              span(class="ng-hide" ng-show="sort === 'fd'") &#8681;
+            th.sort-title(ng-click="Sort('s')")
+              |Legal FAM Code
+              span(class="ng-hide" ng-show="sort === 's'") &#8679;
+              span(class="ng-hide" ng-show="sort === 'sd'") &#8681;
             th Enroll Status
             th Devices Count
         tbody
+          tr
+            td
+              input.form-control(type="text" ng-model="q.email" placeholder="'abc' for 'xxabcxx', '^abc' starts with 'abc'")
+            td
+              input.form-control(type="text" ng-model="q.country")
+            td
+              input.form-control(type="text" ng-model="q.company")
+            td
+              input.form-control(type="text" ng-model="q.famcode")
+            td
+              select.form-control(ng-model="q.enrolled")
+                option(value="True") True
+                option(value="False") False
+            td
+              input.form-control(type="text" ng-model="q.count" placeholder="'1', '[1-2]', '\\d'")
+          // -
+            tr.bg-warning(ng-show="isLoading")
+              td(colspan=6)
+                |Data is loading, please wait ...
           tr(ng-repeat="user in users")
-            td(ng-bind="user.Email")
+            td
+              a.aw-user(href="javascript:void(0)" ng-bind="user.Email" ng-click="getUserDetail(user.Email)")
             td(ng-bind="user.Country")
             td(ng-bind="user.Company")
             td(ng-bind="user.Staff_Legal")
             td(ng-bind="user.Enrolled")
-            td(ng-bind="user.EnrolledDevicesCount ? user.EnrolledDevicesCount : 0")
-      span.pull-right 
+            td
+              a(href="/cmdb/airwatch/device?email={{user.Email}}" target="_blank" style={"padding":"0 5px"} ng-if="!!user.EnrolledDevicesCount" ng-bind="user.EnrolledDevicesCount")
+              span(ng-if="!user.EnrolledDevicesCount" style={"padding":"0 5px"}) 0
+      span.pull-right(style={"line-height": "34px"})
         strong total: {{count}}
+      nav(aria-label="Page navigation")
+        ul.pagination(style={margin: 0})
+          li.page-item(ng-class="{disabled:curPage <= 1}")
+            a.page-link(href="javascript:void(0)" ng-click="get_page(1)" aria-label="First") First
+          li.page-item(ng-class="{disabled:curPage <= 1}")
+            a.page-link(href="javascript:void(0)" ng-click="get_page(curPage-1)" aria-label="Previous")
+              span(aria-hidden="true") &lt;
+              span.sr-only Previous
+          li.page-item(ng-repeat="page in showPage" ng-class="{active: page === curPage}")
+            a.page-link(href="javascript:void(0)" ng-click="get_users(page)" ng-bind="page") 1
+          li.page-item(ng-class="{disabled:curPage >= totalPage}")
+            a.page-link(href="javascript:void(0)" ng-click="get_page(curPage+1)" aria-label="Next")
+              span(aria-hidden="true") &gt;
+              span.sr-only Next
+          li.page-item(ng-class="{disabled:curPage >= totalPage}")
+            a.page-link(href="javascript:void(0)" ng-click="get_page(totalPage)" aria-label="Last") Last
+
+  #aw-modal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="awModalLabel" aria-hidden="true")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type="button" data-dismiss="modal")
+            span(aria-hidden="true") &times;
+            span.sr-only Close
+          h4#awModalLabel.modal-title Details
+        .modal-body
+          table#table-detail.table.table-striped.table-hover.table-consensed
+        .modal-footer
+          button.btn.btn-default(type="button" data-dismiss="modal") Close
 
   script(src='/cmdb/js/awctrl.js',type='text/javascript')

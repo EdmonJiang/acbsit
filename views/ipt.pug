@@ -6,15 +6,16 @@ append script
       
 block content
   .container(ng-controller="iptCtrl")
-    h1 IPT Information Query
+    h1 IPT Information Query&nbsp;
+      a(class="h5" href="https://10.86.140.101/ucmuser/main" target="_blank" style="color:#337ab7;white-space: nowrap;") Self-Care Portal
     br
     br
     form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
       div.row
-        label.col-sm-1.search-label(for='qword') Search:
+        label.col-sm-2.col-sm-offset-1.search-label(for='qword') Search:
         .col-sm-6.search-box
           input#qword.form-control(type='text' name="email" ng-disabled="searching" ng-model="email" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
-        .col-sm-4
+        .col-sm-3
           h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 
     #siteinfo.info-box(style={overflow:'scroll', 'margin-bottom':'25px'} class="ng-hide" ng-show="userInfo")

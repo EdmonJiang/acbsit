@@ -5,15 +5,16 @@ const express = require('express'),
     mongoose = require('mongoose'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
-    config = require('./config/config');
+    config = require('./config/config'),
+    bluebird = require('bluebird');
 
 const app = express();
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
 const server = app.listen(process.env.PORT||3000);
-mongoose.Promise = require('bluebird');
+mongoose.Promise = bluebird;
 mongoose.connect(config.uri);
-const db = mongoose.connection;
+//const db = mongoose.connection;
 //db.on('open', function(){console.log('mongodb connected.')})
 
 app.set('views', path.join(__dirname, 'views'));
@@ -22,7 +23,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false })); 
 //routes
-app.use('/cmdb',express.static(path.join(__dirname, 'public'), {maxAge: 86400000}));
+app.use('/cmdb',express.static(path.join(__dirname, 'public'), {maxAge: 0}));
 
 app.use('/cmdb', function(req,res,next){
   let url = req.path;
@@ -40,8 +41,8 @@ app.use('/cmdb/airwatch', require('./routes/airwatch'))
 app.use('/cmdb/acbus', require('./routes/acbus'))
 
 app.all('*', function (req, res) {
-  let ip = req.headers['x-forwarded-for']
-  let dir = __dirname
+  var ip = req.headers['x-forwarded-for']
+  //var dir = __dirname
   res.send('Hello '+ app.locals.loggedUser +', welcome to visit "'+req.url+'", but nothing here! <a href="/cmdb/site/">Back to HomePage</a><br />Your IP Address: '+ip);
 });
 

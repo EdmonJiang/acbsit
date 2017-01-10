@@ -9,9 +9,9 @@ router.post('/', function (req, res) {
 
 	if (req.body.q.key && req.body.q.value) {
 
-		let q_key = encodeURIComponent(req.body.q.key);
-		let q_value = encodeURIComponent(req.body.q.value);
-		let option = {
+		var q_key = encodeURIComponent(req.body.q.key);
+		var q_value = encodeURIComponent(req.body.q.value);
+		var option = {
 			host: 'ssiscndb0018.apac.group.atlascopco.com',
 			port: 443,
 			path: `/mds/staffs?${q_key}=${q_value}`,
@@ -22,8 +22,8 @@ router.post('/', function (req, res) {
 			}
 		}
 
-		let request = https.request(option, (response) => {
-			let body = ''
+		var request = https.request(option, (response) => {
+			var body = ''
 			response.on('data', (data) => {
 				body += data
 			})
