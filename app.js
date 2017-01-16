@@ -6,16 +6,26 @@ const express = require('express'),
     logger = require('morgan'),
     bodyParser = require('body-parser'),
     config = require('./config/config'),
-    bluebird = require('bluebird');
+    bluebird = require('bluebird'),
+    sql = require('mssql');
 
 const app = express();
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
 const server = app.listen(process.env.PORT||3000);
+server.on('error', onError);
+
 mongoose.Promise = bluebird;
 mongoose.connect(config.uri);
 //const db = mongoose.connection;
 //db.on('open', function(){console.log('mongodb connected.')})
+
+const pool = new sql.Connection(config.sqlconfig);
+pool.connect().then(function() {
+  console.log('Connection pool open for duty');
+}).catch(function(err) {
+  console.error('Error creating connection pool', err);
+});
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -38,6 +48,7 @@ app.use('/cmdb/ipt', require('./routes/ipt'))
 app.use('/cmdb/warranty', require('./routes/warranty'))
 app.use('/cmdb/thinkpad', require('./routes/thinkpad'))
 app.use('/cmdb/airwatch', require('./routes/airwatch'))
+app.use('/cmdb/symantec', require('./routes/symantec')(sql, pool))
 app.use('/cmdb/acbus', require('./routes/acbus'))
 
 app.all('*', function (req, res) {
@@ -45,8 +56,6 @@ app.all('*', function (req, res) {
   //var dir = __dirname
   res.send('Hello '+ app.locals.loggedUser +', welcome to visit "'+req.url+'", but nothing here! <a href="/cmdb/site/">Back to HomePage</a><br />Your IP Address: '+ip);
 });
-
-server.on('error', onError);
 
 function onError(error) {
   if (error.syscall !== 'listen') {

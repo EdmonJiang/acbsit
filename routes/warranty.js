@@ -37,10 +37,40 @@ router.post('/', function (req, res) {
 
 			})
 		}else{
-			res.json({error: "Invalid service tag."})
+			res.json({error: "Invalid DELL service tag."})
 		}
 	} else {
-		res.json({error: "No service tag provided."})
+		res.json({error: "Query parameter 'sn' not found."})
+	}
+})
+
+router.get('/dell', function (req, res) {
+
+	if (req.query.sn) {
+		var sn = req.query.sn
+		if(reg.test(sn))
+		{
+			request.post({url,headers:headers,form:{'ID':sn}},function(err,response,body){
+				//console.log(body)
+				if(err){
+					res.json({error: "No information found!"})
+					return;
+				}
+				var data = JSON.parse(body)
+				var warrantybody = data.AssetWarrantyResponse[0]
+				if (warrantybody) {
+					
+					res.json(warrantybody.AssetEntitlementData || [] )
+				} else {
+					res.json({error: "No information found for the service tag."})
+				}
+
+			})
+		}else{
+			res.json({error: "Invalid DELL service tag."})
+		}
+	} else {
+		res.json({error: "Query parameter 'sn' not found."})
 	}
 })
 

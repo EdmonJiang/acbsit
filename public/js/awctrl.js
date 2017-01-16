@@ -77,7 +77,7 @@
                     $http.get('/cmdb/airwatch/invoice', { params: params }).then(function(response) {
                         //console.log(response)
                         if (response.data.error) {
-                            $scope.users = [{ Email: response.data.error }];
+                            $scope.users = [{ country: response.data.error }];
                             $scope.isLoading = false;
                         } else {
                             //console.log(response)
@@ -92,7 +92,7 @@
 
                     }, function(response) {
                         //console.log("数据加载失败")
-                        $scope.users = [{ Email: "Failed to load data ..." }];
+                        $scope.users = [{ country: "Failed to load data ..." }];
                         $scope.isLoading = false;
                     });
                 };

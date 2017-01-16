@@ -221,7 +221,7 @@ h1{text-align: center;}
 .wrapper-dropdown .drop-style li a {
     display: block;
     padding: 10px 15px;
-    color: #8aa8bd;
+    color: #337ab7;
     font-size: 1.7rem;
     border-bottom: 1px solid #e6e8ea;
     box-shadow: inset 0 1px 0 rgba(255,255,255,1);
@@ -249,5 +249,5 @@ h1{text-align: center;}
 /* Hover state */
 .wrapper-dropdown .drop-style .onlink a,
 .wrapper-dropdown .drop-style li:hover a {
-    background: #f3f8f8;
+    background: #e3e8e8;
 }
