@@ -39,6 +39,9 @@ html(ng-app="staffApp")
                 li.c-nav-main-ba__item(class={active: currentUrl === '/adinfo/'})
                   a.c-nav-main-ba__link(href='/cmdb/adinfo/')
                     span AD User
+                li.c-nav-main-ba__item(class={active: currentUrl === '/symantec/'})
+                  a.c-nav-main-ba__link(href='/cmdb/symantec/')
+                    span Altiris PC
                 li.c-nav-main-ba__item(class={active: currentUrl === '/ipt/'})
                   a.c-nav-main-ba__link(href='/cmdb/ipt/')
                     span IPT Info
@@ -66,6 +69,10 @@ html(ng-app="staffApp")
                 a(role='menuitem', tabindex='-1', href='/cmdb/adinfo/')
                   i &#10070;
                   | AD User
+              li(role='presentation' class={onlink: currentUrl === '/symantec/'})
+                a(role='menuitem', tabindex='-1', href='/cmdb/symantec/')
+                  i &#9853;
+                  | Altiris PC
               li(role='presentation' class={onlink: currentUrl === '/ipt/'})
                 a(role='menuitem', tabindex='-1', href='/cmdb/ipt/')
                   i &#9743;

@@ -162,16 +162,16 @@ h1{text-align: center;}
 .c-nav-main-ba__link:hover,.c-nav-main-ba__link:focus,.active .c-nav-main-ba__link{text-decoration:none;color:#005470}
 .c-nav-cta{float:left;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-appearance:none;background-color:transparent;border:0;color:#0078a1;font-weight:400;font-style:italic;background-repeat:no-repeat;margin-top:1rem;margin-bottom:.52rem;font-size:1.5rem;line-height:1.6875em}
 .c-nav-cta--global{position:relative;display:inline-block;padding-left:1.7rem;padding-right:.8rem}
-@media(min-width:62em){.c-nav-ba-aside{display:block}
+@media(min-width:65em){.c-nav-ba-aside{display:block}
 }
-@media(max-width:50em){.c-nav-ba{display: none;}
+@media(max-width:54em){.c-nav-ba{display: none;}
 }
 .c-nav-cta--global:before{content:'';display:block;background-position:center top;width:16px;height:16px;position:absolute;left:10px;top:5px}
 .active .c-nav-main-ba__link{border-bottom:2px solid #0078a1}
 .c-nav-main-ba__link:hover{border-bottom:2px solid #0078a1}
 .warranty-body{margin-top: 20px;margin-bottom: 15px}
 .wrapper-dropdown{display: none;}
-@media(max-width:50em){.wrapper-dropdown{display: block;}
+@media(max-width:54em){.wrapper-dropdown{display: block;}
 }
 .wrapper-dropdown .drop-style {
   /* Size & position */

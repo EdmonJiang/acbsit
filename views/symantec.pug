@@ -13,20 +13,20 @@ block content
         div.row
           label.col-sm-2.col-sm-offset-1.search-label(for='site') Search:
           .col-sm-6.search-box
-            input#qword.form-control(type='text' name="q" ng-disabled="searching" ng-model="form.value" placeholder="Search records on Altiris by PC name, 'abc*' for 'abcxxx'" autofocus)
+            input#qword.form-control(type='text' name="q" ng-disabled="searching" ng-model="form.value" placeholder="Search records from Altiris by computer name, '^abc' for 'abcxxx'" autofocus)
           .col-sm-3
             h5(ng-class="errMsg.class" ng-bind="errMsg.text")
         .col-sm-10.col-sm-offset-1
-          .panel(style={"text-align":"center"})
+          .panel(style="text-align:center")
             label.radio-inline
-              input(type="radio" name="key" ng-model="form.key" id="PCName" value="pcname" ng-checked="true" title="Search records on Altiris by PC name, 'abc*' for 'abcxxx'")
+              input(type="radio" name="key" ng-model="form.key" id="PCName" value="pcname" ng-checked="true" title="Search records from Altiris by computer name, '^abc' for 'abcxxx'")
               |Computer Name
             label.radio-inline
-              input(type="radio" name="key" ng-model="form.key" id="ADUser" value="aduser" title="Search records on Altiris by windows logon name, 'abc*' for 'abcxxx'")
-              |Logon Name
+              input(type="radio" name="key" ng-model="form.key" id="ADUser" value="aduser" title="Search records from Altiris by windows logon name, '^abc' for 'abcxxx'")
+              |Windows Logon Name
 
-    .siteinfo(style={"margin-bottom":"30px"})
-      div(ng-show="searching" style={"position":"relative","width":"10vmin","margin":"0 auto"})
+    .siteinfo(style="margin-bottom:30px")
+      div(ng-show="searching" style="position:relative; width:10vmin; margin:0 auto")
         .loader-circle
       table#results-table.table.table-striped.table-hover
         tr
@@ -56,10 +56,10 @@ block content
             td(ng-bind="user['IP Address']")
             td(ng-bind="user['Last Connected'] | date:'yyyy-MM-dd HH:mm:ss'")
       .div-btnExport.pull-right(class="ng-hide" ng-show="users.length>0")
-        button(type="button" ng-click="export2csv(users)") Export thisPage
-        button(type="button" style={"margin-left":"5px"} ng-click="export2csv(totalUsers)") Export allPage
+        button(type="button" ng-click="export2csv(users)") Export ThisPage
+        button(type="button" style="margin-left:5px" ng-click="export2csv(totalUsers)") Export AllPages
       nav(aria-label="Page navigation" class="ng-hide" ng-show="totalPage")
-        ul.pagination(style={margin: 0})
+        ul.pagination(style="margin: 0")
           li.page-item(ng-class="{disabled:curPage <= 1}")
             a.page-link(href="javascript:void(0)" ng-click="get_page(1)" aria-label="First") First
           li.page-item(ng-class="{disabled:curPage <= 1}")
@@ -84,7 +84,9 @@ block content
             span.sr-only Close
           h4#symModalLabel.modal-title Details
         .modal-body
-          table#table-detail.table.table-striped.table-hover.table-condensed
+          strong Filter:&nbsp;
+          input#txtFilter(type="text")
+          table#table-detail.table.table-striped.table-hover.table-condensed(style="margin-top:10px")
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
 

@@ -70,8 +70,9 @@ block content
             td(ng-bind="user.Staff_Legal")
             td(ng-bind="user.Enrolled")
             td
-              a(href="/cmdb/airwatch/device?email={{user.Email}}" target="_blank" style={"padding":"0 5px"} ng-if="!!user.EnrolledDevicesCount" ng-bind="user.EnrolledDevicesCount")
-              span(ng-if="!user.EnrolledDevicesCount" style={"padding":"0 5px"}) 0
+              a(href="/cmdb/airwatch/device?email={{user.Email}}" target="_blank" ng-if="!!user.EnrolledDevicesCount")
+                span.label.label-success(ng-bind="user.EnrolledDevicesCount")
+              span.label.label-default(ng-if="!user.EnrolledDevicesCount") 0
       span.pull-right(style={"line-height": "34px"})
         strong total: {{count}}
       nav(aria-label="Page navigation")

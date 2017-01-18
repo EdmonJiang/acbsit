@@ -5,6 +5,16 @@ $(function () {
             $("#qword").attr("placeholder", tip);
         })
 
+        $("#txtFilter").keyup(function(e){
+            var keyword = $(this).val();
+            if( keyword != ""){
+                var reg = new RegExp(keyword, 'i');
+                $('#table-detail tr').hide().filter(function(){return $(this).text().match(reg)}).show();
+                }else{
+                $('#table-detail tr').show();
+                }
+        })
+
     })(jQuery);
 });
 
@@ -36,8 +46,8 @@ $(function () {
                     $scope.errMsg.class = "text-muted";
                     if (data.value) {
                         //console.log(data);
-                        if (data.value.length < 3) {
-                            $scope.errMsg.text = "At lease enter 3 letters!";
+                        if (data.value.match(/\w/g).length < 3) {
+                            $scope.errMsg.text = "At least enter 3 letters!";
                             $scope.errMsg.class = "text-danger";
                             return;
                         }
@@ -67,7 +77,7 @@ $(function () {
                                 return;
                             }
                             $scope.users = $scope.totalUsers.slice(0, 10);
-                            var totalPage = Math.floor(count / 10);
+                            var totalPage = Math.ceil(count / 10);
                             $scope.totalPage = totalPage;
                             $scope.errMsg.text = count + ' records found.';
                             $scope.curPage = 1;
@@ -136,7 +146,7 @@ $(function () {
                             break;
                         case 'User':
                             url = "/?name="+query[0];
-                            fields = ['sAMAccountName', 'userPrincipalName', 'telephoneNumber', 'title', 'department', 'company', 'location', 'accountStatus', 'whenCreated', 'whenChanged', 'lastLogged'];
+                            fields = ['sAMAccountName', 'cn', 'description', 'mail', 'userPrincipalName', 'telephoneNumber', 'title', 'department', 'company', 'manager', 'location', 'accountStatus', 'dn', 'whenCreated', 'whenChanged', 'lastLogged'];
                             cb = null;
                             break;
                         case 'SN':
@@ -154,6 +164,7 @@ $(function () {
                         if (response.data.error) {
                             //$scope.users = [{ Email: response.data.error }];
                             $('#symModalLabel').text(flag + ' Details - '+ query[0]);
+                            $('#txtFilter').val("");
                             $('#table-detail').html('No '+ flag +' information found!');
                             $('#sym-modal').modal({ keyboard: true });
                             $scope.searching = false;
@@ -161,16 +172,21 @@ $(function () {
                             //console.log(response)
                             var data = response.data;
                             $('#table-detail').html("");
+                            $('#txtFilter').val("");
                             $('#symModalLabel').text(flag + ' Details - '+ query[0]);
                             json2table("table-detail", data, fields, cb);
                             $('#sym-modal').modal({ keyboard: true });
+                            $('#sym-modal').on('shown.bs.modal', function () {
+                               $("#txtFilter").focus()
+                            })
                         }
                         $scope.searching = false;
 
                     }, function(response) {
                         //console.log("数据加载失败")
                         $('#symModalLabel').text(flag + ' Details - '+ query[0]);
-                        $('#table-detail').html('No '+ flag +' information found!')
+                        $('#txtFilter').val("");
+                        $('#table-detail').html('No '+ flag +' information found!');
                         $('#sym-modal').modal({ keyboard: true });
                         $scope.searching = false;
                     });
