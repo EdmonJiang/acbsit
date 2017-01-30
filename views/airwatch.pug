@@ -1,8 +1,5 @@
 extends layout
 
-append script
-    script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
-    script(src='/cmdb/js/jquery.twbsPagination.min.js',type='text/javascript')
 block content
   .container(ng-controller="awCtrl" style={"margin-top":"15px"})
     span.h1 AirWatch Catalog&nbsp;
@@ -13,6 +10,7 @@ block content
       button(type="button" ng-click="Clear()" style={"padding":"4px 12px","width":"100px"}) Clear Filter
     .info-box
       div(ng-show="isLoading" style={"position":"relative","width":"10vmin","margin":"0 auto"})
+        .cover
         .loader-circle
       table.table.table-bordered.table-striped.table-hover.table-condensed
         colgroup
@@ -105,4 +103,6 @@ block content
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
 
-  script(src='/cmdb/js/awctrl.js',type='text/javascript')
+append script
+  script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
+  script(src='/public/js/awctrl.js',type='text/javascript')

@@ -25,10 +25,16 @@ $(function () {
         .controller('symCtrl', ['$scope', '$http',
             function ($scope, $http) {
                 $scope.users = [];
-                $scope.searching = false;
+                $scope.count = 0;
                 $scope.curPage = 0;
-                $scope.showPage = [1];
                 $scope.totalPage = 0;
+                $scope.showPage = [1];
+                $scope.searching = false;
+                $scope.q = {
+                    key: "",
+                    value: "",
+                    page: ""
+                };
                 $scope.errMsg = {
                     text: "",
                     class: "text-danger"
@@ -38,30 +44,32 @@ $(function () {
                     value: ""
                 }
                 $scope.submitInfo = function () {
-                    var data = {
+                    var query = {
                         key: $scope.form.key || "pcname",
                         value: $scope.form.value.trim()
                     }
                     $scope.errMsg.text = "Searching ...";
                     $scope.errMsg.class = "text-muted";
-                    if (data.value) {
+                    if (query.value) {
                         //console.log(data);
-                        if (data.value.match(/\w/g).length < 4) {
+                        if (query.value.match(/\w/g).length < 4) {
                             $scope.errMsg.text = "Please enter at least 4 letters!";
                             $scope.errMsg.class = "text-danger";
                             return;
                         }
                         $scope.searching = true;
-                        get_data(data);
+                        $scope.q.key = query.key;
+                        $scope.q.value = query.value;
+                        get_data($scope.q);
                     } else {
                         $scope.errMsg.text = "Please enter your query!";
                         $scope.errMsg.class = "text-danger";
                     }
                 }
 
-                var get_data = function (data) {
-                    //console.log(data);
-                    $http.get('/cmdb/symantec/altiris?' + data.key + '=' + data.value).then(function (response) {
+                var get_data = function (query) {
+                    //console.log(query);
+                    $http.get('/cmdb/symantec/altiris?' + query.key + '=' + query.value + '&page=' + query.page).then(function (response) {
 
                         if (response.data.error) {
                             $scope.errMsg.text = response.data.error;
@@ -100,9 +108,8 @@ $(function () {
                     if (page < 1 || $scope.curPage === page || page > $scope.totalPage) {
                         return;
                     } else {
-                        $scope.curPage = page;
-                        $scope.users = $scope.totalUsers.slice((page-1) * 10, page * 10);
-                        $scope.showPage = GetPager(page, $scope.totalPage)
+                        $scope.q.page = page;
+                        $scope.get_data($scope.q);
                     }
                 }
 

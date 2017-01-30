@@ -10,11 +10,12 @@ module.exports = function(sql, pool) {
     })
 
     router.get('/altiris', function(req, res) {
-        //console.log(req.query);
+        //console.log(qbody);
         var q = {};
-        if (req.query.pcname) {
+        var qbody = req.query;
+        if (qbody.pcname) {
 
-            var value = req.query.pcname;
+            var value = qbody.pcname;
             if (typeof value === 'string' && value.match(/\w/g).length > 3) {
                 q['PC Name'] = new RegExp(value.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i')
             } else {
@@ -22,9 +23,9 @@ module.exports = function(sql, pool) {
                 return;
             }
 
-        } else if (req.query.aduser) {
+        } else if (qbody.aduser) {
 
-            var value = req.query.aduser;
+            var value = qbody.aduser;
             if (typeof value === 'string' && value.match(/\w/g).length > 3) {
                 q['Primary User'] = new RegExp(value.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i')
             } else {
@@ -36,54 +37,35 @@ module.exports = function(sql, pool) {
             return;
         }
 
+        var curPage = 1;
+        if (typeof +qbody.page === "number") {
+        	if (qbody.page >1) {
+        		curPage = qbody.page;
+        	}
+        }
 
-        SMA.find(q).lean().exec(function(err, docs) {
+        SMA.find(q).count(function (err, count) {
+        	if (err) {
+        		//console.log(err)
+        		res.json({error: "Internal error occurred!"});
+                return;
+        	}
+        	//console.log('count:', count)
+        	SMA.find(q).skip((curPage - 1) * 10).limit(10).exec(function (err, docs) {
             if (err) {
                 //console.log(err)
                 res.json({ error: "Query error occurred!" });
                 return;
             }
             //console.log(docs)
-            res.json(docs)
+            res.json({
+            	data: docs,
+            	count: count,
+            	totalPage: count === 0 ? 1 : Math.ceil(count / 10),
+            	curPage: curPage
+            })
         })
 
-
-        // var request = new sql.Request(pool);
-        // request.stream = true; // You can set streaming differently for each request 
-        // // or request.execute(procedure);
-        // request.query("select * from ac_Computers_Complex where "+ key +" like '"+ value.replace(/\*/g, '%') +"'");  
-
-        // var dataset = [];
-
-        // request.on('recordset', function(columns) {
-        //   	// Emitted once for each recordset in a query 
-        // 	//console.log(columns)
-        // });
-
-        // request.on('row', function(row) {
-        // 	// Emitted for each row in a recordset 
-        // 	//console.log(row)
-        // 	dataset.push(row);
-        // });
-
-        // request.on('error', function(err) {
-        // 	// May be emitted multiple times 
-        // 	res.json({error: "Error occurred on query, please try later!"})
-        // });
-
-        // request.on('done', function(affected) {
-        // 	// Always emitted as the last one 
-        // 	res.json(dataset);
-        // });
-
-        // new sql.Request(pool)
-        //     .query("select * from ac_Computers_Complex where " + key + " like '" + value.replace(/\*/g, '%') + "'").then(function(recordset) {
-        //         res.json(recordset);
-        //     }).catch(function(err) {
-        //         // ... error checks
-        //         //console.log("query err: ", err);
-        //         res.json({ error: "Query timeout expired, please try again!" })
-        //     })
     })
 
     router.get('/altiris/:pcname', function(req, res) {

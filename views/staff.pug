@@ -1,8 +1,5 @@
 extends layout
-
-append script
-      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
-      
+    
 block content
   .staffContainer(ng-controller="staffCtrl")
     .container
@@ -19,7 +16,7 @@ block content
         .col-sm-10.col-sm-offset-1
           .panel(style={"text-align":"center"})
             label.radio-inline
-              input(type="radio" name="key" ng-model="form.key" id="AdMail" value="AdMail" ng-checked="true" title="firstname.lastname or firstname.lastname@xx.atlascopco.com")
+              input(type="radio" name="key" ng-model="form.key" id="name" value="name" ng-checked="true" title="firstname.lastname or firstname.lastname@xx.atlascopco.com")
               |Email
             label.radio-inline
               input(type="radio" name="key" ng-model="form.key" id="OperationalManagerAdMail" value="OperationalManagerAdMail" title="Search users by whose manager's email address")
@@ -34,10 +31,9 @@ block content
               input(type="radio" name="key" ng-model="form.key" id="Department" value="Department" title="Search users by department name")
               |Department
 
-    #siteinfo
+    .siteinfo
       table.table.table-striped.table-hover.table-condensed
         tr
-          th UserName
           th Email Address
           th City
           th Division
@@ -49,19 +45,22 @@ block content
           th Company FAM Code
           th Company Name
         tr(ng-repeat="user in users")
-          td(ng-bind="user.Description")
-          td(ng-bind="user.AdMail")
+          td
+            span(ng-bind="user.AdMail")
+            a.icon-jabber_icon(class="ng-hide" ng-show="user.AdMail" ng-href="im:{{user.AdMail}}")
           td(ng-bind="user.LocationCity")
           td(ng-bind="user.Division")
           td(ng-bind="user.LocalJobTitle")
           td(ng-bind="user.Department")
-          td(ng-bind="user.OperationalManagerAdMail")
+          td(ng-bind="user.OperationalManager.split('/')[0]")
           td(ng-bind="user.CostCenter")
           td(ng-bind="user.FamCodeLegalUnit")
           td(ng-bind="user.CompanyFamCode")
           td(ng-bind="user.CompanyName")
 
-  script(src='/cmdb/js/njctrl.js',type='text/javascript')
+append script
+  script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
+  script(src='/public/js/njctrl.js',type='text/javascript')
   script.
     $(function() {
         (function() {

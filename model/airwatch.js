@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-const conn = mongoose.createConnection("mongodb://10.86.32.207:27017/airwatch");
+//const conn = mongoose.createConnection("mongodb://10.86.32.207:27017/airwatch");
 
 const InvoiceSchema = new Schema({
     Staff_Legal: String,
@@ -71,6 +71,6 @@ const DeviceSchema = new Schema({
     Policies: String
 }, { collection: 'devices', toObject: { getters: true } });
 
-module.exports.Invoice = conn.model('Invoice', InvoiceSchema)
-module.exports.User = conn.model('User', UserSchema)
-module.exports.Device = conn.model('Device', DeviceSchema)
+module.exports.Invoice = mongoose.model('Invoice', InvoiceSchema)
+module.exports.User = mongoose.model('User', UserSchema)
+module.exports.Device = mongoose.model('Device', DeviceSchema)

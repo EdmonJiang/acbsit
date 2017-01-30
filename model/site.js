@@ -1,4 +1,7 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose'),
+	config = require('../config/config');
+
+const conn = mongoose.createConnection(config.ubuntu_uri);
 
 const SiteSchema = new mongoose.Schema({
 	City: String,
@@ -9,4 +12,4 @@ const SiteSchema = new mongoose.Schema({
 	Site_ID: String
 },{collection: 'post'});
 
-module.exports = mongoose.model('Site', SiteSchema);
+module.exports = conn.model('Site', SiteSchema);

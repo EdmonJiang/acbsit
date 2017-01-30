@@ -1,8 +1,5 @@
 extends layout
-
-append script
-      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
-      
+    
 block content
   .container.warranty-body
     ul.nav.nav-tabs
@@ -125,7 +122,9 @@ block content
         .modal-body
           img.img-responsive(src='http://think.lenovo.com.cn/service/warranty/images/search_img.png', alt='serial number composed by model and sn.')
 
-  script(src='/cmdb/js/njctrl.js',type='text/javascript')
+append script
+  script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
+  script(src='/public/js/njctrl.js',type='text/javascript')
   script.
     $(function() {
         (function() {

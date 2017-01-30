@@ -1,5 +1,31 @@
 const router = require('express').Router()
 const https = require('https')
+const Staff = require('../model/staff')
+
+const fields = {
+    _id: 0,
+    Guid: 1,
+    Description: 1,
+    NotesName: 1,
+    FirstName: 1,
+    MiddleName: 1,
+    LastName: 1,
+    LocalJobTitle: 1,
+    AdMail: 1,
+    GuidCompany: 1,
+    CompanyFamCode: 1,
+    CompanyName: 1,
+    FamCodeLegalUnit: 1,
+    CostCenter: 1,
+    OperationalManager: 1,
+    GuidOperationalManager: 1,
+    Department: 1,
+    Division: 1,
+    LocationCity: 1
+}
+
+//name for "AdMail", "NotesName"
+const qFiled = ["name", "OperationalManagerAdMail", "LocalJobTitle", "CostCenter", "Department"]
 
 router.get('/', function (req, res) {
   res.render('staff');
@@ -36,12 +62,81 @@ router.post('/', function (req, res) {
 		request.end()
 
 		request.on('error', (e) => {
-			res.end()
+			res.json({error: "Server is in maintenance.!"})
 		})
 
 	}else{
-		res.end()
+		res.json({error: "Query parameters missing!"})
 	}
 })
+
+router.get('/users', function (req, res) {
+		//console.log(req.query);
+	  var qbody = req.query;
+	  var k = qbody.key || "";
+	  var v = qbody.value || "";
+	  if(k && v){
+	  	if (qFiled.indexOf(k) !== -1) {
+	  		var q = {'HasLeft': 'No'}
+	  		if (k === 'name') {
+	  			if (v.indexOf(" ") === -1) {
+	  				q["AdMail"] = new RegExp('\^' + v, 'i');
+	  			}else{
+	  				q["NotesName"] = new RegExp('\^' + v, 'i');
+	  			}
+	  			getStaffs(res, q);
+	  		}else if(k === 'OperationalManagerAdMail'){
+	  			if (v.indexOf(" ") === -1) {
+	  				q["AdMail"] = new RegExp('\^' + v, 'i');
+	  			}else{
+	  				q["NotesName"] = new RegExp('\^' + v, 'i');
+	  			}
+	  			getManager(res, q);
+	  		} else{
+	  			q[k] = new RegExp(v, 'i');
+	  			getStaffs(res, q);
+	  		}
+
+	  	}else{
+	  		res.json({error: "The value of 'key' is not correct!"})
+	  	}
+	  } else{
+	  	res.json({error: "Query parameters are missing!"})
+	  }
+	});
+
+	function getStaffs(res, query){
+		//console.log('getStaffs: ',query);
+		Staff.aggregate([{$match: query}, {$project: fields}, {$limit:100}], function (err, staffs) {
+			//console.log(staffs);
+		    if (err) {
+		        res.json({error: 'Error occurred during query execution!'})
+		    } else {
+		        res.json(staffs)
+		    }
+		})
+	}
+
+	function getManager(res, query){
+		Staff.findOne(query, function(err, staff) {
+			if (err) {
+		        res.json({error: 'Error occurred during query execution!'})
+		    } else {
+		    	if (staff && staff.Guid) {
+		    		var q = {GuidOperationalManager: staff.Guid, HasLeft: 'No'}
+		    	} else{
+		    		res.json({error: 'Nothing Found!'});
+		    		return;
+		    	}
+		        Staff.aggregate([{$match: q}, {$project: fields}, {$limit:100}], function (err, staffs) {
+		            if (err) {
+		                res.json({error: 'Error occurred during query execution!'})
+		            } else {
+		                res.json(staffs)
+		            }
+		        })
+		    }
+		})
+	}
 
 module.exports = router

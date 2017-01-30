@@ -7,9 +7,9 @@ const headers = {'Accept': 'application/json',
            		 'X-Requested-With':'XMLHttpRequest',
            		 'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.71 Safari/537.36'}
 
-router.get('/', function (req, res) {
-  res.render('thinkpad', {});
-})
+// router.get('/', function (req, res) {
+//   res.render('thinkpad', {});
+// })
 
 router.post('/', function (req, res) {
 

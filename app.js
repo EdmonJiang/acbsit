@@ -16,7 +16,7 @@ const server = app.listen(process.env.PORT||3000);
 server.on('error', onError);
 
 mongoose.Promise = bluebird;
-mongoose.connect(config.uri);
+mongoose.connect(config.ms_uri);
 //const db = mongoose.connection;
 //db.on('open', function(){console.log('mongodb connected.')})
 
@@ -33,7 +33,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: false })); 
 //routes
-app.use('/cmdb',express.static(path.join(__dirname, 'public'), {maxAge: 0}));
+//app.use('/cmdb',express.static(path.join(__dirname, 'public'), {maxAge: 0}));
 
 app.use('/cmdb', function(req,res,next){
   let url = req.path;
@@ -49,7 +49,7 @@ app.use('/cmdb/warranty', require('./routes/warranty'))
 app.use('/cmdb/thinkpad', require('./routes/thinkpad'))
 app.use('/cmdb/airwatch', require('./routes/airwatch'))
 app.use('/cmdb/symantec', require('./routes/symantec')(sql, pool))
-app.use('/cmdb/acbus', require('./routes/acbus'))
+//app.use('/cmdb/acbus', require('./routes/acbus'))
 
 app.all('*', function (req, res) {
   var ip = req.headers['x-forwarded-for']

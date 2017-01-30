@@ -1,4 +1,7 @@
 extends layout
+
+append script
+      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
       
 block content
   .staffContainer(ng-controller="symCtrl")
@@ -22,7 +25,7 @@ block content
               input(type="radio" name="key" ng-model="form.key" id="ADUser" value="aduser" title="Enter a windows logon name, '^abcd' starts with 'abcd', 'abcd$' ends with 'abcd'")
               |Windows Logon Name
 
-    .siteinfo
+    .siteinfo(style="margin-bottom:30px")
       div(class="ng-hide" ng-show="searching" style="position:relative; width:10vmin; margin:0 auto")
         .cover
         .loader-circle
@@ -88,9 +91,7 @@ block content
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
 
-append script
-  script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
-  script(src='/public/js/symctrl.js',type='text/javascript')
+  script(src='/cmdb/js/symctrl.js',type='text/javascript')
   script.
     $(function() {
         (function() {

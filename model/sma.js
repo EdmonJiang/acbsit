@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
-const conn = mongoose.createConnection("mongodb://10.86.32.207:27017/altiris");
+//const conn = mongoose.createConnection("mongodb://acbs:atlas@10.86.32.210:27017/acbsit");
 
 const SMASchema = new Schema({
     "rownumber" : String,
@@ -33,4 +33,4 @@ const SMASchema = new Schema({
     "Warranty End Date" : String
 }, { collection: 'computers', id: false, toObject: { getters: true } });
 
-module.exports = conn.model('User', SMASchema)
+module.exports = mongoose.model('SMA', SMASchema)
