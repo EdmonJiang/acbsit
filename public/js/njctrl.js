@@ -45,7 +45,7 @@ angular.module('staffApp', [])
                     console.log(data);
                     $http.get('/cmdb/staff/users', {params: data}).then(function(response) {
                         var data = response.data;
-                        console.log(data);
+                        //console.log(data);
                         if (data.error) {
                             $scope.errMsg.text = data.error;
                             $scope.errMsg.class = "text-danger";
@@ -120,16 +120,24 @@ angular.module('staffApp', [])
 
                 var getby_email = function(name) {
                     //console.log($scope.contact);
-                    $http.get('http://nanjingit.apac.group.atlascopco.com/?name=' + name).success(function(response) {
-                        //console.log(response)
-                        if (response.error) {
-                            $scope.errMsg.text = response.error;
-                            $scope.errMsg.class = "text-danger";
+                    $http.get('http://nanjingit.apac.group.atlascopco.com/', {params: {name: name}}).then(function(response) {
+                        var data = response.data;
+                        //console.log(data);
+                        if ($.isEmptyObject(data)) {
+                            $scope.errMsg.text = 'Nothing Found!';
+                            $scope.errMsg.class = 'text-danger';
+                        } else if (data.error) {
+                            $scope.errMsg.text = data.error;
+                            $scope.errMsg.class = 'text-danger';
                         } else {
-                            $scope.userInfo = response;
-                            $scope.errMsg.class = "text-success";
+                            $scope.userInfo = data;
+                            $scope.errMsg.class = 'text-success';
                             $scope.errMsg.text = '1 record found for "' + name + '".';
                         }
+                        $scope.searching = false;
+                    }, function (response) {
+                        $scope.errMsg.text = 'Failed to get data!';
+                        $scope.errMsg.class = 'text-danger';
                         $scope.searching = false;
                     });
                 };
@@ -162,18 +170,23 @@ angular.module('staffApp', [])
 
                 var getby_email = function(email) {
                     //console.log($scope.contact);
-                    $http.post('/cmdb/ipt', { email: email }).success(function(response) {
-                        //console.log(response)
-                        if (response === "error" || response === "") {
+                    $http.post('/cmdb/ipt', { email: email }).then(function(response) {
+                        var data = response.data;
+                        //console.log(data);
+                        if (data === "error" || data === "") {
                             $scope.errMsg.text = "Error occurred!";
                             $scope.errMsg.class = "text-danger";
                         } else {
-                            $scope.userInfo = $sce.trustAsHtml(response);
-                            //console.log(response)
-                            var tr = response.match(/<tr.*?(?=>)(.|\n)*?<\/tr>/g);
+                            $scope.userInfo = $sce.trustAsHtml(data);
+                            //console.log(data)
+                            var tr = data.match(/<tr.*?(?=>)(.|\n)*?<\/tr>/g);
                             $scope.errMsg.class = "text-success";
                             $scope.errMsg.text = (tr ? tr.length : 0) + ' records found for "' + email + '".';
                         }
+                        $scope.searching = false;
+                    }, function (response) {
+                        $scope.errMsg.text = 'Failed to get data!';
+                        $scope.errMsg.class = 'text-danger';
                         $scope.searching = false;
                     });
                 };
@@ -209,17 +222,22 @@ angular.module('staffApp', [])
 
                 var getWarrantyBy_sn = function(sn) {
                     //console.log($scope.contact);
-                    $http.post('http://nanjingit.apac.group.atlascopco.com/cmdb/warranty/', { sn: sn }).success(function(response) {
+                    $http.post('http://nanjingit.apac.group.atlascopco.com/cmdb/warranty/', { sn: sn }).then(function(response) {
+                        var data = response.data;
                         //console.log(response)
-                        if (response.error) {
-                            $scope.errMsg.text = response.error;
+                        if (data.error) {
+                            $scope.errMsg.text = data.error;
                             $scope.errMsg.class = "text-danger";
                         } else {
-                            $scope.assetheader = response.assetheader;
-                            $scope.assetdata = response.assetdata;
+                            $scope.assetheader = data.assetheader;
+                            $scope.assetdata = data.assetdata;
                             $scope.errMsg.class = "text-success";
                             $scope.errMsg.text = '1 record found for "' + sn + '".';
                         }
+                        $scope.searching = false;
+                    }, function (response) {
+                        $scope.errMsg.text = 'Failed to get data!';
+                        $scope.errMsg.class = 'text-danger';
                         $scope.searching = false;
                     });
                 };
@@ -250,17 +268,22 @@ angular.module('staffApp', [])
 
                 var getWarrantyBy_sn = function(sn) {
                     //console.log($scope.contact);
-                    $http.post('http://nanjingit.apac.group.atlascopco.com/cmdb/thinkpad/', { sn: sn }).success(function(response) {
+                    $http.post('http://nanjingit.apac.group.atlascopco.com/cmdb/thinkpad/', { sn: sn }).then(function(response) {
+                        var data = response.data;
                         //console.log(response)
-                        if (response.error) {
+                        if (data.error) {
                             $scope.errMsg.text = 'No information found for "' + sn + '".';
-                            //$scope.errMsg.text = response.error;
+                            //$scope.errMsg.text = data.error;
                             $scope.errMsg.class = "text-danger";
                         } else {
-                            $scope.assets = response;
+                            $scope.assets = data;
                             $scope.errMsg.class = "text-success";
                             $scope.errMsg.text = '1 record found for "' + sn + '".';
                         }
+                        $scope.searching = false;
+                    }, function (response) {
+                        $scope.errMsg.text = 'Failed to get data!';
+                        $scope.errMsg.class = 'text-danger';
                         $scope.searching = false;
                     });
                 };
