@@ -67,6 +67,68 @@ router.get('/', function (req, res) {
   }
 });
 
+router.post('/', function (req, res) {
+  //console.log(req.query)
+
+  if(req.body.value && req.body.key){
+    //console.log('query not empty')
+    var query = {};
+    var k = req.body.key.trim()
+    var v = req.body.value.trim()
+    query[k] = new RegExp('\^'+v, 'i');
+
+    if(k === 'Subnets' && ValidateIPaddress(v)){
+  
+      var promise = Site.find().distinct('Subnets').exec()
+      promise.then(function(docs){
+        var results = docs.filter(function(item){
+            var arr = item.split('/')
+            if(arr.length !== 2){return false;}
+            return ip.subnet(arr[0].trim(), arr[1].trim()).contains(v)
+          })
+
+        if(results[0] && results[0].length>10){
+          Site.find({Subnets: results[0]}).limit(10).lean().exec(function(err, sites){
+            if(err){return res.json({error: 'IP Query Error!'})};
+            if(sites.length>0){
+              //console.log(sites)
+              for(var site of sites){
+                delete site["_id"];
+              }
+              res.json(sites)
+            }else{
+              res.json({error: "Nothing found for the IP!"});
+            }
+          })
+        }else{
+          return res.json({error: "Nothing found for the IP!"});
+        }
+        
+      }, function (err) {
+        return res.json({error: "Nothing found!"});
+      })
+
+    }else{
+
+      Site.find(query).limit(10).lean().exec(function(err, sites){
+        if(err){return res.json({error: 'Query error occurred!'})};
+        if(sites.length>0){
+          //console.log(sites)
+          for(var site of sites){
+            delete site["_id"];
+          }
+          res.json(sites)
+        }else{
+          res.json({error: "Nothing found!"});
+        }
+      })
+    
+    }
+  }else{
+    res.json({error: "Query parameters missing!"});
+  }
+});
+
 function ValidateIPaddress(ipaddress)   
 {  
  if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress))  

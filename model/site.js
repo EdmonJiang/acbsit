@@ -1,7 +1,7 @@
-const mongoose = require('mongoose'),
-	config = require('../config/config');
+const mongoose = require('mongoose');
+//	config = require('../config/config');
 
-const conn = mongoose.createConnection(config.ubuntu_uri);
+//const conn = mongoose.createConnection(config.ubuntu_uri);
 
 const SiteSchema = new mongoose.Schema({
 	City: String,
@@ -10,6 +10,6 @@ const SiteSchema = new mongoose.Schema({
 	Country: String,
 	Region: String,
 	Site_ID: String
-},{collection: 'post'});
+},{collection: 'site'});
 
-module.exports = conn.model('Site', SiteSchema);
+module.exports = mongoose.model('Site', SiteSchema);

@@ -97,11 +97,11 @@ router.get('/invoice', function(req, res, next) {
     	var query = qbody.q;
 //console.log("query: ", query)
 	    q = {
-	        Staff_Legal: query.famcode ? new RegExp(query.famcode.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i') : /.*/,
-	        Company: query.company ? new RegExp(query.company.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i') : /.*/,
-	        Country: query.country ? new RegExp(query.country.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i') : /.*/,
-	        Email: query.email ? new RegExp(query.email.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")/g, ''), 'i') : /.*/,
-	        Enrolled: query.enrolled ? query.enrolled.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, '') : 'True',
+	        Staff_Legal: query.famcode ? new RegExp(query.famcode.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i') : /.*/,
+	        Company: query.company ? new RegExp(query.company.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i') : /.*/,
+	        Country: query.country ? new RegExp(query.country.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i') : /.*/,
+	        Email: query.email ? new RegExp(query.email.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")/g, ' '), 'i') : /.*/,
+	        Enrolled: query.enrolled ? query.enrolled.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' ') : 'True',
 	        EnrolledDevicesCount: query.count === "0" ? "" : (query.count ? new RegExp(query.count.trim(), 'i') : /.*/)
 	    }
     }

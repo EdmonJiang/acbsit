@@ -9,6 +9,14 @@ const express = require('express'),
     bluebird = require('bluebird'),
     sql = require('mssql');
 
+const site = require('./routes/site'),
+      staff = require('./routes/staff'),
+      adinfo = require('./routes/adinfo'),
+      ipt = require('./routes/ipt'),
+      warranty = require('./routes/warranty'),
+      thinkpad = require('./routes/thinkpad'),
+      airwatch = require('./routes/airwatch')
+
 const app = express();
 app.use(favicon(__dirname + '/public/favicon.ico'));
 
@@ -41,13 +49,13 @@ app.use('/cmdb', function(req,res,next){
   app.locals.loggedUser = req.headers['x-iisnode-auth_user'];
   next();
 })
-app.use('/cmdb/site', require('./routes/site'))
-app.use('/cmdb/staff', require('./routes/staff'))
-app.use('/cmdb/adinfo', require('./routes/adinfo'))
-app.use('/cmdb/ipt', require('./routes/ipt'))
-app.use('/cmdb/warranty', require('./routes/warranty'))
-app.use('/cmdb/thinkpad', require('./routes/thinkpad'))
-app.use('/cmdb/airwatch', require('./routes/airwatch'))
+app.use('/cmdb/site', site)
+app.use('/cmdb/staff', staff)
+app.use('/cmdb/adinfo', adinfo)
+app.use('/cmdb/ipt', ipt)
+app.use('/cmdb/warranty', warranty)
+app.use('/cmdb/thinkpad', thinkpad)
+app.use('/cmdb/airwatch', airwatch)
 app.use('/cmdb/symantec', require('./routes/symantec')(sql, pool))
 //app.use('/cmdb/acbus', require('./routes/acbus'))
 

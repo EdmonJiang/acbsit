@@ -1,8 +1,10 @@
 extends layout
 
+block js
+  script(src='https://unpkg.com/jquery@1.12.4/dist/jquery.min.js',type='text/javascript')
 
 block content
-  .container
+  .container(ng-controller="siteCtrl")
     h1 Global Site Infomation Query
     br
     br
@@ -42,6 +44,7 @@ append script
     $(function(){
       (function () {
       'use strict';
+
         $("#site-form").submit(function(event){
           var q = $("#qword").val().trim();
           if(q===""){

@@ -6,6 +6,9 @@ html(ng-app="staffApp")
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     <!--[if gt IE 8]><!-->
+    block js
+      script(src='https://unpkg.com/jquery@1.12.4/dist/jquery.min.js',type='text/javascript')
+      script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
     block css
       link(rel='stylesheet', href='/public/css/style.css')
       link(rel='stylesheet', href='https://unpkg.com/bootstrap@3.3.5/dist/css/bootstrap.min.css')
@@ -83,7 +86,6 @@ html(ng-app="staffApp")
     .c-row--divider
     block content
     block script
-      script(src='https://unpkg.com/jquery@1.12.4/dist/jquery.min.js',type='text/javascript')
       script(src='https://unpkg.com/bootstrap@3.3.5/dist/js/bootstrap.min.js',type='text/javascript')
     block footer
       div(style={position:"fixed",left:"10px",bottom:"5px"})

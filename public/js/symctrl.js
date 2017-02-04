@@ -147,7 +147,7 @@ $(function () {
                             break;
                         case 'User':
                             url = "/?name="+query[0];
-                            fields = ['sAMAccountName', 'cn', 'description', 'mail', 'userPrincipalName', 'telephoneNumber', 'title', 'department', 'company', 'location', 'accountStatus', 'whenCreated', 'whenChanged', 'lastLogged'];
+                            fields = ['sAMAccountName', 'cn', 'description', 'mail', 'userPrincipalName', 'telephoneNumber', 'title', 'department', 'company', 'location', 'accountStatus', 'pwdExpireTime', 'whenCreated', 'whenChanged', 'lastLogged'];
                             title = "AD User Information - ";
                             cb = null;
                             break;

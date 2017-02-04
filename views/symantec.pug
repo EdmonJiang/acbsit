@@ -89,14 +89,25 @@ block content
           button.btn.btn-default(type="button" data-dismiss="modal") Close
 
 append script
-  script(src='https://unpkg.com/angular@1.5.8/angular.min.js',type='text/javascript')
-  script(src='/public/js/symctrl.js',type='text/javascript')
+  script(src='/public/js/njctrl.js',type='text/javascript')
   script.
     $(function() {
-        (function() {
+        (function ($) {
+
             $("input:radio").on("click", function() {
                 var tip = $(this).attr("title");
                 $("#qword").attr("placeholder", tip);
             })
-        })();
+
+            $("#txtFilter").keyup(function(e){
+                var keyword = $(this).val();
+                if( keyword != ""){
+                    var reg = new RegExp(keyword, 'i');
+                    $('#table-detail tr').hide().filter(function(){return $(this).text().match(reg)}).show();
+                    }else{
+                    $('#table-detail tr').show();
+                    }
+            })
+
+        })(jQuery);
     });
