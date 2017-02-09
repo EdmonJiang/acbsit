@@ -38,7 +38,7 @@ h1 {
 
 .staffContainer {
     margin: 0 auto;
-    width: 90%;
+    width: 95%;
 }
 
 .btn-size {
@@ -54,6 +54,10 @@ h1 {
     padding-top: 7px;
 }
 
+.siteinfo{
+    margin-bottom:30px
+}
+
 .info-box {
     margin-top: 15px;
     margin-bottom: 30px;
@@ -66,6 +70,11 @@ h1 {
 
 .info-box .sort-title {
     cursor: pointer;
+}
+
+.aw-btn {
+    padding: 4px 12px;
+    width: 100px;
 }
 
 .loader-circle {
@@ -160,16 +169,27 @@ h1 {
     display: block;
     margin-bottom: 0;
     position: relative;
-    width: 100px;
-    background-repeat: no-repeat;
     background-position: center center;
-    background-image: url("/public/img/logo.png");
     text-indent: -99999px;
-    height: 48px;
     font-size: 1rem;
     line-height: 1.5em;
     margin-left: 0rem;
     margin-right: 3.2rem
+}
+
+.icon-jabber_icon {
+    display: inline-block;
+    margin-bottom: -4px;
+    background-image: url(/public/img/sprite.png);
+    background-position: 0px -48px;
+    width: 16px;
+    height: 16px;
+}
+.icon-logo {
+    background-image: url(/public/img/sprite.png);
+    background-position: 0px 0px;
+    width: 100px;
+    height: 48px;
 }
 
 .c-logo__link {
@@ -230,6 +250,8 @@ h1 {
     color: #2676ac;
     animation: moveFromTop 300ms ease-in-out;
 }
+
+.c-body-top { margin-top: 64px; }
 
 @-webkit-keyframes moveFromBottom {
     from {
@@ -362,7 +384,7 @@ h1 {
 }
 
 .warranty-body {
-    margin-top: 20px;
+    margin-top: 84px;
     margin-bottom: 15px
 }
 

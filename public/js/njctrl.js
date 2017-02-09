@@ -223,7 +223,7 @@ angular.module('staffApp', [])
 
             var getWarrantyBy_sn = function(sn) {
                 //console.log($scope.contact);
-                $http.post('http://nanjingit.apac.group.atlascopco.com/cmdb/warranty/', { sn: sn }).then(function(response) {
+                $http.post('/cmdb/warranty/', { sn: sn }).then(function(response) {
                     var data = response.data;
                     //console.log(response)
                     if (data.error) {
@@ -269,7 +269,7 @@ angular.module('staffApp', [])
 
             var getWarrantyBy_sn = function(sn) {
                 //console.log($scope.contact);
-                $http.post('http://nanjingit.apac.group.atlascopco.com/cmdb/thinkpad/', { sn: sn }).then(function(response) {
+                $http.post('/cmdb/thinkpad/', { sn: sn }).then(function(response) {
                     var data = response.data;
                     //console.log(response)
                     if (data.error) {

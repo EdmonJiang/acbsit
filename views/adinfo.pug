@@ -2,7 +2,7 @@ extends layout
 
       
 block content
-  .container(ng-controller="adCtrl")
+  .container.c-body-top(ng-controller="adCtrl")
     h1 AD User Information Query
     br
     br
@@ -57,10 +57,10 @@ block content
               td(ng-bind="userInfo.dn")
             tr
               th whenCreated
-              td(ng-bind="userInfo.whenCreated")
+              td(ng-bind="userInfo.whenCreated | date:'yyyy-MM-dd HH:mm:ss Z'")
             tr            
               th whenChanged
-              td(ng-bind="userInfo.whenChanged")
+              td(ng-bind="userInfo.whenChanged | date:'yyyy-MM-dd HH:mm:ss Z'")
             tr  
               th lastLogged
               td(ng-bind="userInfo.lastLogged")
@@ -87,8 +87,7 @@ block content
               td
                 strong Filter:&nbsp;
                 input(type="text" ng-model="q")
-            tr(ng-repeat="group in userInfo.memberOf | filter:q")
+                |&nbsp;
+                button(ng-click="reverseSort()") &#8645;
+            tr(ng-repeat="group in userInfo.memberOf | orderBy:'toString()' : reverse | filter:q")
               td(ng-bind="group")
-
-append script
-    script(src='/public/js/njctrl.js',type='text/javascript')

@@ -2,7 +2,7 @@ extends layout
 
      
 block content
-  .container(ng-controller="iptCtrl")
+  .container.c-body-top(ng-controller="iptCtrl")
     h1 IPT Information Query&nbsp;
       a(class="h5" href="https://10.86.140.101/ucmuser/main" target="_blank" style="color:#337ab7;white-space: nowrap;") Self-Care Portal
     br
@@ -20,4 +20,3 @@ block content
 
 append script
   script(src='https://unpkg.com/angular-sanitize@1.5.8/angular-sanitize.min.js',type='text/javascript')
-  script(src='/public/js/njctrl.js',type='text/javascript')

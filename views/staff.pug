@@ -1,14 +1,14 @@
 extends layout
     
 block content
-  .staffContainer(ng-controller="staffCtrl")
+  .staffContainer.c-body-top(ng-controller="staffCtrl")
     .container
       h1 AC Staff Information Query
       br
       br
       form#site-form.form-horizontal(ng-submit="submitInfo()")
         div.row
-          label.col-sm-2.col-sm-offset-1.search-label(for='site') Search:
+          label.col-sm-2.col-sm-offset-1.search-label(for="qword") Search:
           .col-sm-6.search-box
             input#qword.form-control(type='text' name="q" ng-disabled="searching" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
           .col-sm-3
@@ -41,7 +41,7 @@ block content
           th Department
           th OperationalManager
           th Cost Center
-          th FAM Code legal unit
+          th FAM Code legal
           th Company FAM Code
           th Company Name
         tr(ng-repeat="user in users")
@@ -59,7 +59,6 @@ block content
           td(ng-bind="user.CompanyName")
 
 append script
-  script(src='/public/js/njctrl.js',type='text/javascript')
   script.
     $(function() {
         (function() {

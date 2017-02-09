@@ -15,7 +15,7 @@ block content
         br
         form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
           div.row
-            label.col-sm-2.col-sm-offset-1.search-label(for='qword') Search:
+            label.col-sm-2.col-sm-offset-1.search-label(for="qword") Search:
             .col-sm-6.search-box
               input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="DELL service tag is a 7-character code and only contains letters and numbers" autofocus)
             .col-sm-3
@@ -54,9 +54,9 @@ block content
         br
         form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
           div.row
-            label.col-sm-2.col-sm-offset-1.search-label(for='qword') Search:
+            label.col-sm-2.col-sm-offset-1.search-label(for="qword2") Search:
             .col-sm-6.search-box
-              input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="Enter the serial number of your thinkpad." autofocus)
+              input#qword2.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="Enter the serial number of your thinkpad." autofocus)
             .col-sm-3
               h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 
@@ -123,7 +123,6 @@ block content
           img.img-responsive(src='http://think.lenovo.com.cn/service/warranty/images/search_img.png', alt='serial number composed by model and sn.')
 
 append script
-  script(src='/public/js/njctrl.js',type='text/javascript')
   script.
     $(function() {
         (function() {

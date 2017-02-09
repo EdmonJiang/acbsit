@@ -167,11 +167,14 @@ router.get('/user', function(req, res, next) {
 /* GET Device Detail. */
 router.get('/device', function(req, res, next) {
 	var email = req.query.email || "";
+
 	if (!email) {
         res.json({ error: "Query parameter 'email' not found." })
         return;
     }
-	Device.find({UserName: email}).lean().exec(function (err, docs) {
+    
+    var q = new RegExp(email, 'i');
+	Device.find({UserEmailAddress: q}).lean().exec(function (err, docs) {
 		if (err) {
 	    		//console.log(err)
 	    		res.json({error: "Internal error occurred!"});

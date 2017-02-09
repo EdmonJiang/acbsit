@@ -1,7 +1,7 @@
 extends layout
       
 block content
-  .staffContainer(ng-controller="symCtrl")
+  .staffContainer.c-body-top(ng-controller="symCtrl")
     .container
       h1 Altiris PC Information Query
       br
@@ -89,7 +89,6 @@ block content
           button.btn.btn-default(type="button" data-dismiss="modal") Close
 
 append script
-  script(src='/public/js/njctrl.js',type='text/javascript')
   script.
     $(function() {
         (function ($) {

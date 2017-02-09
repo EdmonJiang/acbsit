@@ -4,34 +4,21 @@ const mongoose = require('mongoose'),
 
 const InvoiceSchema = new Schema({
     Staff_Legal: String,
-    LEGAL_AD: String,
     Company: String,
     Country: String,
     Email: String,
-    Employee_ID: String,
-    Company_ID: String,
     Enrolled: String,
     EnrolledDevicesCount: String
 }, { collection: 'invoice', toObject: { getters: true } });
 
 const UserSchema = new Schema({
     ContactNumber: String,
-    CustomAttribute1: String,
     Email: String,
-    EmailUserName: String,
     EnrolledDevicesCount: String,
-    EnrollmentUserID: String,
-    ExternalId: String,
     FirstName: String,
     Group: String,
     LastName: String,
-    LocationGroupId: String,
-    MessageType: String,
-    MobileNumber: String,
-    Role: String,
-    SecurityType: String,
     Status: String,
-    UserName: String,
     LastScanned: String
 }, { collection: 'users', toObject: { getters: true } });
 

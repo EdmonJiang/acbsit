@@ -1,13 +1,13 @@
 extends layout
 
 block content
-  .container(ng-controller="awCtrl" style={"margin-top":"15px"})
+  .container(ng-controller="awCtrl" style="margin-top:79px")
     span.h1 AirWatch Catalog&nbsp;
     a(href="https://ds556.awmdm.com/MyDevice/Login?ReturnUrl=%2fMyDevice%2fLanding%2f" target="_blank") Self-Service Portal
     .pull-right
-      button(type="button" ng-click="Search()"  ng-disabled="isLoading" style={"padding":"4px 12px","width":"100px"}) Search
+      button.aw-btn(type="button" ng-click="Search()"  ng-disabled="isLoading") Search
       |&nbsp;&nbsp;
-      button(type="button" ng-click="Clear()" style={"padding":"4px 12px","width":"100px"}) Clear Filter
+      button.aw-btn(type="button" ng-click="Clear()") Clear Filter
     .info-box
       div(ng-show="isLoading" style={"position":"relative","width":"10vmin","margin":"0 auto"})
         .cover
@@ -102,6 +102,3 @@ block content
           table#table-detail.table.table-striped.table-hover.table-consensed
         .modal-footer
           button.btn.btn-default(type="button" data-dismiss="modal") Close
-
-append script
-  script(src='/public/js/njctrl.js',type='text/javascript')
