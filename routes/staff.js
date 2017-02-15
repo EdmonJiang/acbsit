@@ -33,110 +33,143 @@ router.get('/', function (req, res) {
 
 router.post('/', function (req, res) {
 
-	if (req.body.q.key && req.body.q.value) {
+    if (req.body.q.key && req.body.q.value) {
 
-		var q_key = encodeURIComponent(req.body.q.key);
-		var q_value = encodeURIComponent(req.body.q.value);
-		var option = {
-			host: 'ssiscndb0018.apac.group.atlascopco.com',
-			port: 443,
-			path: `/mds/staffs?${q_key}=${q_value}`,
-			method: 'GET',
-			rejectUnauthorized: false,
-			headers: {
-				accept: '*/*'
-			}
-		}
+        var q_key = encodeURIComponent(req.body.q.key);
+        var q_value = encodeURIComponent(req.body.q.value);
+        var option = {
+            host: 'ssiscndb0018.apac.group.atlascopco.com',
+            port: 443,
+            path: `/mds/staffs?${q_key}=${q_value}`,
+            method: 'GET',
+            rejectUnauthorized: false,
+            headers: {
+                accept: '*/*'
+            }
+        }
 
-		var request = https.request(option, (response) => {
-			var body = ''
-			response.on('data', (data) => {
-				body += data
-			})
+        var request = https.request(option, (response) => {
+            var body = ''
+            response.on('data', (data) => {
+                body += data
+            })
 
-			response.on('end', () => {
-				res.json(body)
-			})
-		})
+            response.on('end', () => {
+                res.json(body)
+            })
+        })
 
-		request.end()
+        request.end()
 
-		request.on('error', (e) => {
-			res.json({error: "Server is in maintenance.!"})
-		})
+        request.on('error', (e) => {
+            res.json({error: "Server is in maintenance.!"})
+        })
 
-	}else{
-		res.json({error: "Query parameters missing!"})
-	}
+    }else{
+        res.json({error: "Query parameters missing!"})
+    }
 })
 
 router.get('/users', function (req, res) {
-		//console.log(req.query);
-	  var qbody = req.query;
-	  var k = qbody.key || "";
-	  var v = qbody.value || "";
-	  if(k && v){
-	  	if (qFiled.indexOf(k) !== -1) {
-	  		var q = {'HasLeft': 'No'}
-	  		if (k === 'name') {
-	  			if (v.indexOf(" ") === -1) {
-	  				q["AdMail"] = new RegExp('\^' + v, 'i');
-	  			}else{
-	  				q["NotesName"] = new RegExp('\^' + v, 'i');
-	  			}
-	  			getStaffs(res, q);
-	  		}else if(k === 'OperationalManagerAdMail'){
-	  			if (v.indexOf(" ") === -1) {
-	  				q["AdMail"] = new RegExp('\^' + v, 'i');
-	  			}else{
-	  				q["NotesName"] = new RegExp('\^' + v, 'i');
-	  			}
-	  			getManager(res, q);
-	  		} else{
-	  			q[k] = new RegExp(v, 'i');
-	  			getStaffs(res, q);
-	  		}
+        //console.log(req.query);
+      var qbody = req.query;
+      var k = qbody.key || "";
+      var v = qbody.value || "";
+      if(k && v){
+        if (qFiled.indexOf(k) !== -1) {
+            var q = {'HasLeft': 'No'}
+            if (k === 'name') {
+                if (v.indexOf(" ") === -1) {
+                    q["AdMail"] = new RegExp('\^' + v, 'i');
+                }else{
+                    q["NotesName"] = new RegExp('\^' + v, 'i');
+                }
+                getStaffs(res, q, fields, 100);
+            }else if(k === 'OperationalManagerAdMail'){
+                if (v.indexOf(" ") === -1) {
+                    q["AdMail"] = new RegExp('\^' + v, 'i');
+                }else{
+                    q["NotesName"] = new RegExp('\^' + v, 'i');
+                }
+                getManager(res, q);
+            } else{
+                q[k] = new RegExp(v, 'i');
+                getStaffs(res, q, fields, 100);
+            }
 
-	  	}else{
-	  		res.json({error: "The value of 'key' is not correct!"})
-	  	}
-	  } else{
-	  	res.json({error: "Query parameters are missing!"})
-	  }
-	});
+        }else{
+            res.json({error: "The value of 'key' is not correct!"})
+        }
+      } else{
+        res.json({error: "Query parameters are missing!"})
+      }
+    });
 
-	function getStaffs(res, query){
-		//console.log('getStaffs: ',query);
-		Staff.aggregate([{$match: query}, {$project: fields}, {$limit:100}], function (err, staffs) {
-			//console.log(staffs);
-		    if (err) {
-		        res.json({error: 'Error occurred during query execution!'})
-		    } else {
-		        res.json(staffs)
-		    }
-		})
-	}
+    function getStaffs(res, query, project, limit){
+        //console.log('getStaffs: ',query);
+        Staff.aggregate([{$match: query}, {$project: project}, {$limit: limit}], function (err, staffs) {
+            //console.log(staffs);
+            if (err) {
+                res.json({error: 'Error occurred during query execution!' + project})
+            } else {
+                res.json(staffs)
+            }
+        })
+    }
 
-	function getManager(res, query){
-		Staff.findOne(query, function(err, staff) {
-			if (err) {
-		        res.json({error: 'Error occurred during query execution!'})
-		    } else {
-		    	if (staff && staff.Guid) {
-		    		var q = {GuidOperationalManager: staff.Guid, HasLeft: 'No'}
-		    	} else{
-		    		res.json({error: 'Nothing Found!'});
-		    		return;
-		    	}
-		        Staff.aggregate([{$match: q}, {$project: fields}, {$limit:100}], function (err, staffs) {
-		            if (err) {
-		                res.json({error: 'Error occurred during query execution!'})
-		            } else {
-		                res.json(staffs)
-		            }
-		        })
-		    }
-		})
-	}
+    function getManager(res, query){
+        Staff.findOne(query, function(err, staff) {
+            if (err) {
+                res.json({error: 'Error occurred during query execution!'})
+            } else {
+                if (staff && staff.Guid) {
+                    var q = {GuidOperationalManager: staff.Guid, HasLeft: 'No'}
+                } else{
+                    res.json({error: 'Nothing Found!'});
+                    return;
+                }
+                Staff.aggregate([{$match: q}, {$project: fields}, {$limit:100}], function (err, staffs) {
+                    if (err) {
+                        res.json({error: 'Error occurred during query execution!'})
+                    } else {
+                        res.json(staffs)
+                    }
+                })
+            }
+        })
+    }
+
+    router.get('/users/list', function (req, res) {
+        //console.log(req.query);
+        var qbody = req.query;
+        var k = qbody.key || '';
+        k = k === 'OperationalManagerAdMail' ? 'AdMail' : k;
+        var v = qbody.value || '';
+        
+
+        if (qFiled.indexOf(k) !== -1) {
+            var q = {'HasLeft': 'No'};
+            var project = {_id:0};
+;
+            if (k === 'name') {
+                if (v.indexOf(' ') === -1) {
+                    q['AdMail'] = new RegExp('\^' + v, 'i');
+                    project['AdMail'] = 1;
+                }else{
+                    q['NotesName'] = new RegExp('\^' + v, 'i');
+                    project['NotesName'] = 1;
+                }
+                getStaffs(res, q, project, 8);
+            } else{
+                project[k] = 1;
+                q[k] = new RegExp(v, 'i');
+                getStaffs(res, q, project, 8);
+            }
+
+        }else{
+            res.json([])
+        }
+
+    });
 
 module.exports = router

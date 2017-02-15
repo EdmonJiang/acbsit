@@ -12,15 +12,15 @@ block content
       div
         label.col-sm-2.col-sm-offset-1.search-label(for='qword') Search:
         .col-sm-6.search-box
-          input#qword.form-control(type='text' value=keyword name="q" placeholder="Please enter a SiteID, like HKG001, CHN056" autofocus)
+          input#qword.form-control(type='text' value=keyword name="q" data-provide="typeahead" autocomplete="off" placeholder="Please enter a SiteID, like HKG001, CHN056" autofocus)
       .col-sm-6.col-lg-6.col-sm-offset-3
         .panel(style={"text-align":"center"})
           label.radio-inline
-            input(type="radio" name="key" id="Site_ID" value="Site_ID" checked=key==="Site_ID" title="Please enter a SiteID, like chn049, CHN056")
-            |Site_ID    
+            input(type="radio" name="key" id="SiteID" value="SiteID" checked=key==="SiteID" title="Please enter a SiteID, like chn049, CHN056")
+            |SiteID    
           label.radio-inline
-            input(type="radio" name="key" id="City" value="City" checked=key==="City" title="Please enter a city name, like nanjing, wilrijk")
-            |City    
+            input(type="radio" name="key" id="SiteCity" value="SiteCity" checked=key==="SiteCity" title="Please enter a city name, like nanjing, wilrijk")
+            |SiteCity    
           label.radio-inline
             input(type="radio" name="key" id="IP" value="Subnets" checked=key==="Subnets" title="Please enter an ip address")
             |IP
@@ -29,7 +29,7 @@ block content
       if errors
         h5(style={color:"red"})= errors
       if infos
-        table.table.table-striped.table-hover
+        table.site-td.table.table-striped.table-hover
           each info in infos
             each key,value in info
               tr
@@ -41,13 +41,15 @@ block content
 
 block script
   script(src='https://unpkg.com/bootstrap@3.3.5/dist/js/bootstrap.min.js',type='text/javascript')
+  script(src='//cdn.bootcss.com/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js')
   script.
     $(function(){
       (function () {
       'use strict';
 
+        var $input = $("#qword");
         $("#site-form").submit(function(event){
-          var q = $("#qword").val().trim();
+          var q = $input.val().trim();
           if(q===""){
             $("#siteinfo").html("<h5 style='color:red'>Please enter a keyword in the textbox!</h5>");
             event.preventDefault();
@@ -56,8 +58,32 @@ block script
 
         $("input:radio").on("click", function () {
           var tip = $(this).attr("title");
-          $("#qword").attr("placeholder", tip);
+          $input.attr("placeholder", tip);
+          $input.typeahead('destroy');
+          var name = $(this).val();
+          if(name==="Subnets"){
+            return;
+          } else {
+            setTypeahead($input, name);
+          }
         })
+
+        var siteList = null;
+        setTimeout(function(){
+            $('input[type=radio][checked]').click();
+        }, 500)
+        // set typeahead to objInput
+        function setTypeahead(objInput, name) {
+            if(!siteList){
+                $.get('/public/sitelist.json', function(data){
+                    siteList = data;
+                    objInput.typeahead({ source: siteList[name], fitToElement: true });
+                },'json');
+
+            } else {
+                objInput.typeahead({ source: siteList[name], fitToElement: true });
+            }
+        }
 
       })();
     })

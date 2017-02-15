@@ -1,7 +1,11 @@
 const router = require('express').Router()
 const SMA = require('../model/sma')
-    //const config = require('../config/config')
-    //const sql = require('mssql');
+const objSort = {
+    c: {"PC Name": 1},
+    cd: {"PC Name": -1},
+    u: {"Primary User": 1},
+    ud: {"Primary User": -1}
+};
 
 module.exports = function(sql, pool) {
 
@@ -16,7 +20,7 @@ module.exports = function(sql, pool) {
 
             var value = req.query.pcname;
             if (typeof value === 'string' && value.match(/\w/g).length > 3) {
-                q['PC Name'] = new RegExp(value.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i')
+                q['PC Name'] = new RegExp('\^' + value.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i')
             } else {
                 res.json({ error: 'Please provide at least 3 letters!' });
                 return;
@@ -26,7 +30,7 @@ module.exports = function(sql, pool) {
 
             var value = req.query.aduser;
             if (typeof value === 'string' && value.match(/\w/g).length > 3) {
-                q['Primary User'] = new RegExp(value.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i')
+                q['Primary User'] = new RegExp('\^' + value.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i')
             } else {
                 res.json({ error: 'Please provide at least 3 letters!' });
                 return;
@@ -47,43 +51,132 @@ module.exports = function(sql, pool) {
             res.json(docs)
         })
 
+    })
 
-        // var request = new sql.Request(pool);
-        // request.stream = true; // You can set streaming differently for each request 
-        // // or request.execute(procedure);
-        // request.query("select * from ac_Computers_Complex where "+ key +" like '"+ value.replace(/\*/g, '%') +"'");  
+    router.get('/altiris/pclist', function(req, res) {
+        //console.log(req.query);
+        var qbody = req.query || {};
+        var q = {};
+        var key = {'PC Name':1, 'Primary User':1, '_id':0};
+        if (qbody.pcname) {
+            delete key['Primary User'];
+            var value = qbody.pcname;
+            if (typeof value === 'string' && value.match(/\w/g)) {
+                q['PC Name'] = new RegExp('\^' + value.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i')
+            } else {
+                res.json({ error: 'Computer name is a combination of letters and numbers!' });
+                return;
+            }
 
-        // var dataset = [];
+        } else if (qbody.aduser) {
+            delete key['PC Name'];
+            var value = qbody.aduser;
+            if (typeof value === 'string' && value.match(/\w/g)) {
+                q['Primary User'] = new RegExp('\^' + value.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i')
+            } else {
+                res.json({ error: 'Username is a combination of letters and numbers!' });
+                return;
+            }
+        } else {
+            res.json({ error: 'No query parameters found.' });
+            return;
+        }
 
-        // request.on('recordset', function(columns) {
-        //   	// Emitted once for each recordset in a query 
-        // 	//console.log(columns)
-        // });
+        var curPage = 1;
+        if (typeof +qbody.page === "number") {
+            if (qbody.page >1) {
+                curPage = qbody.page;
+            }
+        }
 
-        // request.on('row', function(row) {
-        // 	// Emitted for each row in a recordset 
-        // 	//console.log(row)
-        // 	dataset.push(row);
-        // });
+        var sort = qbody.sort ? qbody.sort : 'c';
+        if (['c', 'cd', 'u', 'ud'].indexOf(sort) === -1) {
+            sort = 'c';
+        }
 
-        // request.on('error', function(err) {
-        // 	// May be emitted multiple times 
-        // 	res.json({error: "Error occurred on query, please try later!"})
-        // });
+        SMA.find(q).count(function (err, count) {
+            if (err) {
+                //console.log(err)
+                res.json({error: "Internal error occurred!"});
+                return;
+            }
+            SMA.find(q, key).sort(objSort[sort]).skip((curPage - 1) * 10).limit(10).exec(function(err, docs) {
+                if (err) {
+                    //console.log(err)
+                    res.json({ error: "Query error occurred!" });
+                    return;
+                }
+                //console.log(docs)
+                res.json({
+                    sort: sort,
+                    count: count,
+                    curPage: curPage,
+                    totalPage: count === 0 ? 1 : Math.ceil(count / 10),
+                    data: docs
+                })
+            })
+        })
 
-        // request.on('done', function(affected) {
-        // 	// Always emitted as the last one 
-        // 	res.json(dataset);
-        // });
+    })
 
-        // new sql.Request(pool)
-        //     .query("select * from ac_Computers_Complex where " + key + " like '" + value.replace(/\*/g, '%') + "'").then(function(recordset) {
-        //         res.json(recordset);
-        //     }).catch(function(err) {
-        //         // ... error checks
-        //         //console.log("query err: ", err);
-        //         res.json({ error: "Query timeout expired, please try again!" })
-        //     })
+    router.get('/altiris/hint', function(req, res) {
+        //console.log(req.query);
+        var qbody = req.query || {};
+        var q = {};
+        var key = 'PC Name';
+        if (qbody.pcname) {
+            //delete key['Primary User'];
+            var value = qbody.pcname;
+            if (typeof value === 'string' && value.match(/\w/g)) {
+                q['PC Name'] = new RegExp('\^' + value, 'i')
+            } else {
+                res.json([]);
+                return;
+            }
+
+        } else if (qbody.aduser) {
+            //delete key['PC Name'];
+            key = 'Primary User';
+            var value = qbody.aduser;
+            if (typeof value === 'string' && value.match(/\w/g)) {
+                q['Primary User'] = new RegExp('\^' + value, 'i')
+            } else {
+                res.json([]);
+                return;
+            }
+        } else {
+            res.json([]);
+            return;
+        }
+
+        SMA.aggregate(
+            [
+                { "$match": q },
+                { "$group": { 
+                    "_id": "$" + key, 
+                }},
+                { "$limit": 8 }
+            ],
+            function(err, docs) {
+               if (err) {
+                   //console.log(err)
+                   res.json([]);
+                   return;
+               }
+               //console.log(docs)
+               res.json(docs)
+            }
+        );
+/*        SMA.find(q, key).limit(8).exec(function(err, docs) {
+            if (err) {
+                //console.log(err)
+                res.json([]);
+                return;
+            }
+            //console.log(docs)
+            res.json(docs)
+        })*/
+
     })
 
     router.get('/altiris/:pcname', function(req, res) {

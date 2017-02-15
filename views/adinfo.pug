@@ -45,7 +45,12 @@ block content
               td(ng-bind="userInfo.mail")
             tr
               th userPrincipalName
-              td(ng-bind="userInfo.userPrincipalName")
+              td
+                |{{userInfo.userPrincipalName}}&nbsp;
+                span(class="ng-hide" ng-show="userInfo.userPrincipalName")
+                  a.icon-jabber_icon(ng-href="im:{{userInfo.userPrincipalName}}")
+                  |&nbsp;
+                  a.icon-mail_send(ng-href="mailto:{{userInfo.userPrincipalName}}")
             tr
               th telephoneNumber
               td(ng-bind="userInfo.telephoneNumber")

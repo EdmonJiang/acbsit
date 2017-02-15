@@ -1,7 +1,8 @@
 const router = require('express').Router(),
     Site = require('../model/site'),
     ip = require('ip');
-
+const ipregex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+const preregex = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/
 router.get('/', function (req, res) {
   //console.log(req.query)
 
@@ -13,7 +14,7 @@ router.get('/', function (req, res) {
     query[k] = new RegExp('\^'+v, 'i');
 
     if(k === 'Subnets' && ValidateIPaddress(v)){
-  
+ 
       var promise = Site.find().distinct('Subnets').exec()
       promise.then(function(docs){
         var results = docs.filter(function(item){
@@ -32,7 +33,7 @@ router.get('/', function (req, res) {
               }
               res.render('index',{infos: sites, keyword: v, key: k})
             }else{
-              res.render('index', {errors: "Nothing found!", keyword: v, key: k||"Site_ID"});
+              res.render('index', {errors: "Nothing found!", keyword: v, key: k||"SiteID"});
             }
           })
         }else{
@@ -56,14 +57,14 @@ router.get('/', function (req, res) {
           }
           res.render('index',{infos: sites, keyword: v, key: k})
         }else{
-          res.render('index', {errors: "Nothing found!", keyword: v, key: k||"Site_ID"});
+          res.render('index', {errors: "Nothing found!", keyword: v, key: k||"SiteID"});
         }
       })
     
     }
   }else{
     //console.log('query is empty')
-    res.render('index', {key: "Site_ID"});
+    res.render('index', {key: "SiteID"});
   }
 });
 
@@ -131,12 +132,7 @@ router.post('/', function (req, res) {
 
 function ValidateIPaddress(ipaddress)   
 {  
- if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress))  
-  {  
-    return true;
-  }  
-//alert("You have entered an invalid IP address!")  
-return false; 
+  return ipregex.test(ipaddress)
 }
 
 
