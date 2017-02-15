@@ -10,7 +10,8 @@ block content
         div.row
           label.col-sm-2.col-sm-offset-1.search-label(for="qword") Search:
           .col-sm-6.search-box
-            input#qword.form-control(type='text' name="q" ng-disabled="searching" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
+            input#qword.form-control(type='text' name="q" data-provide="typeahead" autocomplete="off" ng-disabled="searching" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
+            span#spinner.loader-circle.input-spinner.hidden
           .col-sm-3
             h5(ng-class="errMsg.class" ng-bind="errMsg.text")
         .col-sm-10.col-sm-offset-1
@@ -59,12 +60,50 @@ block content
           td(ng-bind="user.CompanyName")
 
 append script
+  script(src='//cdn.bootcss.com/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js')
   script.
     $(function() {
-        (function() {
-            $("input:radio").on("click", function() {
-                var tip = $(this).attr("title");
-                $("#qword").attr("placeholder", tip);
-            })
-        })();
+      (function() {
+        var $input = $("#qword");
+
+        $("input:radio").on("click", function() {
+          var tip = $(this).attr("title");
+          $input.attr("placeholder", tip);
+          $input.typeahead('destroy');
+          var name = $(this).val();
+          setTypeahead($input, name);
+        })
+
+        setTimeout(function(){
+          //setTypeahead($input, $('input[type=radio][checked]').val());
+          $('input[type=radio][checked]').click();
+        }, 500)
+
+        var $spinner = $("#spinner");
+        function setTypeahead(objInput, name) {
+          //console.log(name)
+          objInput.typeahead({
+            delay: 700,
+            fitToElement: true,
+            source: function(query, callback){
+              if(!query.trim()){
+                return;
+              }
+              $spinner.removeClass("hidden");
+              $.getJSON('/cmdb/staff/users/list/?key='+name+'&value='+query, function(data){
+                var list = data.map(function(item){
+                    return item._id;
+                })
+                if(!list.length){
+                  return;
+                }
+                //console.log(list);
+                $spinner.addClass("hidden");
+                callback(list);
+              })
+            }
+          })
+        }
+
+      })();
     });

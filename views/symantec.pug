@@ -115,13 +115,11 @@ append script
         })
 
         setTimeout(function(){
-          //setTypeahead($input, $('input[type=radio][checked]').val());
           $('input[type=radio][checked]').click();
         }, 500)
 
         var $spinner = $("#spinner");
         function setTypeahead(objInput, name) {
-          //console.log(name)
           objInput.typeahead({
             delay: 700,
             fitToElement: true,
@@ -131,14 +129,12 @@ append script
               }
               $spinner.removeClass("hidden");
               $.getJSON('/cmdb/symantec/altiris/hint/?'+name+'='+query, function(data){
-                var key = name === 'pcname' ? 'PC Name' : 'Primary User';
                 var list = data.map(function(item){
                     return item._id;
                 })
                 if(!list.length){
                   return;
                 }
-                //console.log(list);
                 $spinner.addClass("hidden");
                 callback(list);
               })

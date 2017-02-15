@@ -7,9 +7,6 @@ const fields = {
     Guid: 1,
     Description: 1,
     NotesName: 1,
-    FirstName: 1,
-    MiddleName: 1,
-    LastName: 1,
     LocalJobTitle: 1,
     AdMail: 1,
     GuidCompany: 1,
@@ -23,9 +20,12 @@ const fields = {
     Division: 1,
     LocationCity: 1
 }
+    // FirstName: 1,
+    // MiddleName: 1,
+    // LastName: 1,
 
 //name for "AdMail", "NotesName"
-const qFiled = ["name", "OperationalManagerAdMail", "LocalJobTitle", "CostCenter", "Department"]
+const qFiled = ["name", "AdMail", "OperationalManagerAdMail", "LocalJobTitle", "CostCenter", "Department"]
 
 router.get('/', function (req, res) {
   res.render('staff');
@@ -143,30 +143,46 @@ router.get('/users', function (req, res) {
         //console.log(req.query);
         var qbody = req.query;
         var k = qbody.key || '';
-        k = k === 'OperationalManagerAdMail' ? 'AdMail' : k;
+        k = k === 'OperationalManagerAdMail' ? 'name' : k;
         var v = qbody.value || '';
-        
-
+        //console.log("value: " + v)
         if (qFiled.indexOf(k) !== -1) {
             var q = {'HasLeft': 'No'};
-            var project = {_id:0};
 ;
             if (k === 'name') {
                 if (v.indexOf(' ') === -1) {
                     q['AdMail'] = new RegExp('\^' + v, 'i');
-                    project['AdMail'] = 1;
+                    k = 'AdMail';
                 }else{
                     q['NotesName'] = new RegExp('\^' + v, 'i');
-                    project['NotesName'] = 1;
+                    k = 'NotesName';
                 }
-                getStaffs(res, q, project, 8);
             } else{
-                project[k] = 1;
-                q[k] = new RegExp(v, 'i');
-                getStaffs(res, q, project, 8);
+                q[k] = new RegExp('\^' + v, 'i');
             }
+               //getStaffs(res, q, project, 8);
+               //console.log(JSON.stringify(q) + ' key:' + k)
+            Staff.aggregate(
+                [
+                    { "$match": q },
+                    { "$group": { 
+                        "_id": "$" + k, 
+                    }},
+                    { "$limit": 8 }
+                ],
+                function(err, docs) {
+                   if (err) {
+                       //console.log(err)
+                       res.json([]);
+                       return;
+                   }
+                   //console.log(docs)
+                   res.json(docs)
+                }
+            );
 
         }else{
+            //console.log("no key found")
             res.json([])
         }
 
