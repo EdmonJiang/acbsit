@@ -10,7 +10,7 @@ block content
     .tab-content
       .tab-pane#tab1.active(ng-controller="snCtrl")
         h1 DELL Warranty Information Query&nbsp;
-          a#btnpopover.btn.btn-info.btn-sm(href="#" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="How to find service tag?" data-content="1. On the back cover of laptop or on the computer chassis.<br> 2. Using command prompt.<br> Windows: run - cmd, wmic bios get serialnumber.<br> Linux: Open a termianl, sudo dmidecode -s system-serial-number." style={padding:"0px 8px"}) How to find service tag?
+          a#btnpopover.btn.btn-info.btn-sm(href="#" tabindex="0" role="button" data-toggle="popover" data-trigger="focus" title="How to find service tag?" data-content="1. On the back cover of laptop or on the computer chassis.<br> 2. Using command prompt.<br> Windows: run - cmd, wmic bios get serialnumber.<br> Linux: Open a termianl, sudo dmidecode -s system-serial-number." style="padding:0px 8px") How to find service tag?
         br
         br
         form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
@@ -49,7 +49,7 @@ block content
                 td(ng-if="asset.ServiceLevelDescription" ng-bind="asset.EndDate | date:'yyyy-MM-dd'")
       .tab-pane#tab2(ng-controller="thinkCtrl")
         h1 Thinkpad Warranty Information Query&nbsp;
-          a.btn.btn-info.btn-sm(type='button', data-toggle='modal', data-target='.bs-example-modal-lg' style={padding:"0px 8px"}) How to find serial number?
+          a.btn.btn-info.btn-sm(type='button', data-toggle='modal', data-target='.bs-example-modal-lg' style="padding:0px 8px") How to find serial number?
         br
         br
         form#site-form.clearfix.form-horizontal(ng-submit="submitInfo()")
@@ -77,8 +77,8 @@ block content
                   th Expired Date:
                   td(ng-bind="assets.WarrantyData[0].OutTimeDate")
                 tr
-                  td(colspan="2" style={"text-align":"center"})
-                    img(ng-src="{{assets.WarrantyData[0].CategropImgURL}}" style={width:"200px"})
+                  td(colspan="2" style="text-align: center")
+                    img(ng-src="{{assets.WarrantyData[0].CategropImgURL}}" style="width: 200px")
           .result_right
             .service_table(class="ng-hide" ng-show="assets.ServiceData")
               table.table.table-bordered.table-striped.table-hover

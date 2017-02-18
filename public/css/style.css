@@ -54,6 +54,9 @@ h1 {
     padding-top: 7px;
 }
 
+.site-td td{
+    word-break: break-all;
+}
 .siteinfo{
     margin-bottom:30px
 }
@@ -80,17 +83,23 @@ h1 {
 .loader-circle {
     position: absolute;
     border: 16px solid #d3d3d3;
-    /* Light grey */
     border-top: 16px solid #337ab7;
     border-bottom: 16px solid #337ab7;
-    /*  border-right: 16px solid green;
-  border-bottom: 16px solid red;
-  border-left: 16px solid pink;*/
     border-radius: 50%;
     top: 80px;
     width: 90px;
     height: 90px;
     animation: spin 2s linear infinite;
+}
+
+.input-spinner{
+    top: 50%;
+    right: 1.55em;
+    margin-top: -10.5px;
+    width: 21px;
+    height: 21px;
+    box-sizing: border-box;
+    border-width: 0.2em;
 }
 
 @keyframes spin {
@@ -171,12 +180,18 @@ h1 {
     position: relative;
     background-position: center center;
     text-indent: -99999px;
-    font-size: 1rem;
+/*    font-size: 1rem;
     line-height: 1.5em;
-    margin-left: 0rem;
+    margin-left: 0rem;*/
     margin-right: 3.2rem
 }
 
+.icon-logo {
+    background-image: url(/public/img/sprite.png);
+    background-position: 0px 0px;
+    width: 100px;
+    height: 48px;
+}
 .icon-jabber_icon {
     display: inline-block;
     margin-bottom: -4px;
@@ -185,11 +200,13 @@ h1 {
     width: 16px;
     height: 16px;
 }
-.icon-logo {
+.icon-mail_send {
+    display: inline-block;
+    margin-bottom: -4px;
     background-image: url(/public/img/sprite.png);
-    background-position: 0px 0px;
-    width: 100px;
-    height: 48px;
+    background-position: -16px -48px;
+    width: 16px;
+    height: 16px;
 }
 
 .c-logo__link {
@@ -473,7 +490,6 @@ h1 {
 
 
 /* Hover state */
-
 .wrapper-dropdown .drop-style .onlink a,
 .wrapper-dropdown .drop-style li:hover a {
     background: #e3e8e8;

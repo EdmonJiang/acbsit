@@ -24,26 +24,26 @@ html(ng-app="staffApp")
             p.c-logo.icon-logo
               a.c-logo__link(href='/cmdb/site/') Atlas Copco
             nav.c-nav-ba
-              ul.o-list.c-nav-main-ba-ba
-                li.c-nav-main-ba__item(class={active: currentUrl === '/site/'})
+              ul.o-list
+                li.c-nav-main-ba__item
                     a.c-nav-main-ba__link(href='/cmdb/site/')
                       span Site Info
-                li.c-nav-main-ba__item(class={active: currentUrl === '/staff/'})
+                li.c-nav-main-ba__item
                   a.c-nav-main-ba__link(href='/cmdb/staff/')
                     span Staff Info
-                li.c-nav-main-ba__item(class={active: currentUrl === '/adinfo/'})
+                li.c-nav-main-ba__item
                   a.c-nav-main-ba__link(href='/cmdb/adinfo/')
                     span AD User
-                li.c-nav-main-ba__item(class={active: currentUrl === '/symantec/'})
+                li.c-nav-main-ba__item
                   a.c-nav-main-ba__link(href='/cmdb/symantec/')
                     span Altiris PC
-                li.c-nav-main-ba__item(class={active: currentUrl === '/ipt/'})
+                li.c-nav-main-ba__item
                   a.c-nav-main-ba__link(href='/cmdb/ipt/')
                     span IPT Info
-                li.c-nav-main-ba__item(class={active: currentUrl === '/airwatch/'})
+                li.c-nav-main-ba__item
                   a.c-nav-main-ba__link(href='/cmdb/airwatch/')
                     span AirWatch
-                li.c-nav-main-ba__item(class={active: currentUrl === '/warranty/'})
+                li.c-nav-main-ba__item
                   a.c-nav-main-ba__link(href='/cmdb/warranty/')
                     span Warranty
 
@@ -51,32 +51,32 @@ html(ng-app="staffApp")
             button#dropdownMenu1.btn.btn-lg.dropdown-toggle(style='margin-top:1px;background-color: #09c;color:#fff', type='button', data-toggle='dropdown')
               | Menu
               span.caret
-            ul.dropdown-menu.drop-style(role='menu', aria-labelledby='dropdownMenu1')
-              li(role='presentation' class={onlink: currentUrl === '/site/'})
+            ul#drop-menu.dropdown-menu.drop-style(role='menu', aria-labelledby='dropdownMenu1')
+              li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='/cmdb/site/')
                   i &#9729;
                   | Site Info
-              li(role='presentation' class={onlink: currentUrl === '/staff/'})
+              li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='/cmdb/staff/')
                   i &#9786;
                   | Staff Info
-              li(role='presentation' class={onlink: currentUrl === '/adinfo/'})
+              li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='/cmdb/adinfo/')
                   i &#10070;
                   | AD User
-              li(role='presentation' class={onlink: currentUrl === '/symantec/'})
+              li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='/cmdb/symantec/')
                   i &#9853;
                   | Altiris PC
-              li(role='presentation' class={onlink: currentUrl === '/ipt/'})
+              li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='/cmdb/ipt/')
                   i &#9743;
                   | IPT Info
-              li(role='presentation' class={onlink: currentUrl === '/airwatch/'})
+              li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='/cmdb/airwatch/')
                   i &#9993;
                   | AirWatch
-              li(role='presentation' class={onlink: currentUrl === '/warranty/'})
+              li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='/cmdb/warranty/')
                   i &#9730;
                   | Warranty
@@ -88,7 +88,8 @@ html(ng-app="staffApp")
     block script
       script(src='https://unpkg.com/bootstrap@3.3.5/dist/js/bootstrap.min.js',type='text/javascript')
       script(src='/public/js/njctrl4.min.js',type='text/javascript')
+        
     block footer
-      div(style={position:"fixed",left:"10px",bottom:"5px"})
+      div(style='position:fixed;left:10px;bottom:5px')
         |Powered by ACBSIT, Naning, China&nbsp;&copy; 2016-2018 Edmon Jiang
     <!--<![endif]-->

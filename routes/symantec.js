@@ -128,7 +128,7 @@ module.exports = function(sql, pool) {
             //delete key['Primary User'];
             var value = qbody.pcname;
             if (typeof value === 'string' && value.match(/\w/g)) {
-                q['PC Name'] = new RegExp('\^' + value, 'i')
+                q['PC Name'] = new RegExp('\^' + value.replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i')
             } else {
                 res.json([]);
                 return;
@@ -139,7 +139,7 @@ module.exports = function(sql, pool) {
             key = 'Primary User';
             var value = qbody.aduser;
             if (typeof value === 'string' && value.match(/\w/g)) {
-                q['Primary User'] = new RegExp('\^' + value, 'i')
+                q['Primary User'] = new RegExp('\^' + value.replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i')
             } else {
                 res.json([]);
                 return;

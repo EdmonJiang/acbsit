@@ -11,7 +11,7 @@ router.get('/', function (req, res) {
     var query = {};
     var k = req.query.key.trim()
     var v = req.query.q.trim()
-    query[k] = new RegExp('\^'+v, 'i');
+    query[k] = new RegExp('\^'+v.replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i');
 
     if(k === 'Subnets' && ValidateIPaddress(v)){
  
@@ -76,7 +76,7 @@ router.post('/', function (req, res) {
     var query = {};
     var k = req.body.key.trim()
     var v = req.body.value.trim()
-    query[k] = new RegExp('\^'+v, 'i');
+    query[k] = new RegExp('\^'+v.replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i');
 
     if(k === 'Subnets' && ValidateIPaddress(v)){
   

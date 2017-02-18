@@ -14,7 +14,7 @@ block content
         .col-sm-6.search-box
           input#qword.form-control(type='text' value=keyword name="q" data-provide="typeahead" autocomplete="off" placeholder="Please enter a SiteID, like HKG001, CHN056" autofocus)
       .col-sm-6.col-lg-6.col-sm-offset-3
-        .panel(style={"text-align":"center"})
+        .panel(style="text-align: center")
           label.radio-inline
             input(type="radio" name="key" id="SiteID" value="SiteID" checked=key==="SiteID" title="Please enter a SiteID, like chn049, CHN056")
             |SiteID    
@@ -27,7 +27,7 @@ block content
 
     #siteinfo
       if errors
-        h5(style={color:"red"})= errors
+        h5(style="color: red")= errors
       if infos
         table.site-td.table.table-striped.table-hover
           each info in infos
@@ -46,6 +46,17 @@ block script
     $(function(){
       (function () {
       'use strict';
+        var url = window.location.pathname;
+        $('nav ul a').each(function(item){
+            if(~$(this).attr('href').indexOf(url)){
+                $(this).parent().addClass('active')
+            }
+        })
+        $('#drop-menu li a').each(function(item){
+            if(~$(this).attr('href').indexOf(url)){
+                $(this).parent().addClass('onlink')
+            }
+        })
 
         var $input = $("#qword");
         $("#site-form").submit(function(event){

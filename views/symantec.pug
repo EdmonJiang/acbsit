@@ -124,7 +124,7 @@ append script
             delay: 700,
             fitToElement: true,
             source: function(query, callback){
-              if(!query.trim()){
+              if(!query.trim() || !objInput.val()){
                 return;
               }
               $spinner.removeClass("hidden");
@@ -132,12 +132,15 @@ append script
                 var list = data.map(function(item){
                     return item._id;
                 })
+                $spinner.addClass("hidden");
                 if(!list.length){
                   return;
                 }
-                $spinner.addClass("hidden");
                 callback(list);
               })
+            },
+            matcher: function(item){
+              return item;
             }
           })
         }

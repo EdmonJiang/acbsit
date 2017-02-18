@@ -9,7 +9,7 @@ block content
       |&nbsp;&nbsp;
       button.aw-btn(type="button" ng-click="Clear()") Clear Filter
     .info-box
-      div(ng-show="isLoading" style={"position":"relative","width":"10vmin","margin":"0 auto"})
+      div(ng-show="isLoading" style="position:relative;width:10vmin;margin:0 auto")
         .cover
         .loader-circle
       table.table.table-bordered.table-striped.table-hover.table-condensed
@@ -55,11 +55,8 @@ block content
                 option(value="True") True
                 option(value="False") False
             td
-              input.form-control(type="text" ng-model="q.count" placeholder="'1', '[1-2]', '\\d'")
-          // -
-            tr.bg-warning(ng-show="isLoading")
-              td(colspan=6)
-                |Data is loading, please wait ...
+              input.form-control(type="text" ng-model="q.count" placeholder="'1', '[1-2]'")
+
           tr(ng-repeat="user in users")
             td
               a.aw-user(href="javascript:void(0)" ng-bind="user.Email" ng-click="getUserDetail(user.Email)")
@@ -71,10 +68,10 @@ block content
               a(href="/cmdb/airwatch/device?email={{user.Email}}" target="_blank" ng-if="!!user.EnrolledDevicesCount")
                 span.label.label-success(ng-bind="user.EnrolledDevicesCount")
               span.label.label-default(ng-if="!user.EnrolledDevicesCount") 0
-      span.pull-right(style={"line-height": "34px"})
+      span.pull-right(style="line-height: 34px")
         strong total: {{count}}
       nav(aria-label="Page navigation")
-        ul.pagination(style={margin: 0})
+        ul.pagination(style="margin: 0")
           li.page-item(ng-class="{disabled:curPage <= 1}")
             a.page-link(href="javascript:void(0)" ng-click="get_page(1)" aria-label="First") First
           li.page-item(ng-class="{disabled:curPage <= 1}")

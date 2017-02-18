@@ -128,13 +128,15 @@ router.get('/users', function (req, res) {
                     res.json({error: 'Nothing Found!'});
                     return;
                 }
-                Staff.aggregate([{$match: q}, {$project: fields}, {$limit:100}], function (err, staffs) {
+                    getStaffs(res, q, fields, 100);
+
+/*                Staff.aggregate([{$match: q}, {$project: fields}, {$limit:100}], function (err, staffs) {
                     if (err) {
                         res.json({error: 'Error occurred during query execution!'})
                     } else {
                         res.json(staffs)
                     }
-                })
+                })*/
             }
         })
     }
@@ -148,7 +150,7 @@ router.get('/users', function (req, res) {
         //console.log("value: " + v)
         if (qFiled.indexOf(k) !== -1) {
             var q = {'HasLeft': 'No'};
-;
+
             if (k === 'name') {
                 if (v.indexOf(' ') === -1) {
                     q['AdMail'] = new RegExp('\^' + v, 'i');
@@ -158,7 +160,7 @@ router.get('/users', function (req, res) {
                     k = 'NotesName';
                 }
             } else{
-                q[k] = new RegExp('\^' + v, 'i');
+                q[k] = new RegExp(v, 'i');
             }
                //getStaffs(res, q, project, 8);
                //console.log(JSON.stringify(q) + ' key:' + k)

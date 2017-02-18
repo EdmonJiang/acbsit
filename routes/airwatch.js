@@ -33,12 +33,12 @@ router.post('/invoice', function(req, res, next) {
     	var query = qbody.q;
 //console.log("query: ", query)
 	    q = {
-	        Staff_Legal: query.famcode ? new RegExp(query.famcode.trim(), 'i') : /.*/,
-	        Company: query.company ? new RegExp(query.company.trim(), 'i') : /.*/,
-	        Country: query.country ? new RegExp(query.country.trim(), 'i') : /.*/,
-	        Email: query.email ? new RegExp(query.email.trim(), 'i') : /.*/,
+	        Staff_Legal: query.famcode ? new RegExp(query.famcode.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i') : /.*/,
+	        Company: query.company ? new RegExp(query.company.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i') : /.*/,
+	        Country: query.country ? new RegExp(query.country.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ''), 'i') : /.*/,
+	        Email: query.email ? new RegExp(query.email.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")/g, ''), 'i') : /.*/,
 	        Enrolled: query.enrolled ? query.enrolled.trim() : 'True',
-	        EnrolledDevicesCount: query.count ? query.count.trim() : /.*/
+	        EnrolledDevicesCount: query.count ? query.count.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, '') : /.*/
 	    }
     }
 //console.log('qarg: ', q)
@@ -102,7 +102,7 @@ router.get('/invoice', function(req, res, next) {
 	        Country: query.country ? new RegExp(query.country.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i') : /.*/,
 	        Email: query.email ? new RegExp(query.email.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")/g, ' '), 'i') : /.*/,
 	        Enrolled: query.enrolled ? query.enrolled.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' ') : 'True',
-	        EnrolledDevicesCount: query.count === "0" ? "" : (query.count ? new RegExp(query.count.trim(), 'i') : /.*/)
+	        EnrolledDevicesCount: query.count === "0" ? "" : (query.count ? new RegExp(query.count.trim().replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")|(\.)/g, ' '), 'i') : /.*/)
 	    }
     }
 //console.log('qarg: ', q)
@@ -173,7 +173,7 @@ router.get('/device', function(req, res, next) {
         return;
     }
     
-    var q = new RegExp(email, 'i');
+    var q = new RegExp(email.replace(/(\/)|(\\)|(\*)|(\?)|(\<)|(\>)|(\")/g, ' '), 'i');
 	Device.find({UserEmailAddress: q}).lean().exec(function (err, docs) {
 		if (err) {
 	    		//console.log(err)
