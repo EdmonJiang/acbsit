@@ -22,6 +22,6 @@ const SiteSchema = new mongoose.Schema({
 	SiteName: String,
 	SiteAddress: String,
 	SiteSubnets: [String],
-},{collection: 'site2'});
+},{collection: 'site'});
 
 module.exports = mongoose.model('Site', SiteSchema);

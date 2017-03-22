@@ -17,11 +17,11 @@ block content
         .col-sm-10.col-sm-offset-1
           .panel(style="text-align: center")
             label.radio-inline
-              input(type="radio" name="key" ng-model="form.key" id="name" value="name" ng-checked="true" title="firstname.lastname or firstname.lastname@xx.atlascopco.com")
+              input(type="radio" name="key" ng-model="form.key" id="AdMail" value="AdMail" ng-checked="true" title="firstname.lastname or firstname.lastname@xx.atlascopco.com")
               |Email
             label.radio-inline
-              input(type="radio" name="key" ng-model="form.key" id="OperationalManagerAdMail" value="OperationalManagerAdMail" title="Search users by whose manager's email address")
-              |Manager's email
+              input(type="radio" name="key" ng-model="form.key" id="OperationalManagerAdMail" value="OperationalManagerAdMail" title="Search team member's by managers email address")
+              |Manager's email     
             label.radio-inline
               input(type="radio" name="key" ng-model="form.key" id="LocalJobTitle" value="LocalJobTitle" title="Search users by local job title")
               |Local Job Title  
@@ -60,7 +60,6 @@ block content
           td(ng-bind="user.CompanyName")
 
 append script
-  script(src='//cdn.bootcss.com/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js')
   script.
     $(function() {
       (function() {
@@ -69,41 +68,7 @@ append script
         $("input:radio").on("click", function() {
           var tip = $(this).attr("title");
           $input.attr("placeholder", tip);
-          $input.typeahead('destroy');
-          var name = $(this).val();
-          setTypeahead($input, name);
         })
-
-        setTimeout(function(){
-          $('input[type=radio][checked]').click();
-        }, 500)
-
-        var $spinner = $("#spinner");
-        function setTypeahead(objInput, name) {
-          objInput.typeahead({
-            delay: 700,
-            fitToElement: true,
-            source: function(query, callback){
-              if(!query.trim() || !objInput.val()){
-                return;
-              }
-              $spinner.removeClass("hidden");
-              $.getJSON('/cmdb/staff/users/list/?key='+name+'&value='+query, function(data){
-                var list = data.map(function(item){
-                    return item._id;
-                })
-                $spinner.addClass("hidden");
-                if(!list.length){
-                  return;
-                }
-                callback(list);
-              })
-            },
-            matcher: function(item){
-              return item;
-            }
-          })
-        }
 
       })();
     });

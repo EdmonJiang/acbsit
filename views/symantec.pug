@@ -124,7 +124,8 @@ append script
             delay: 700,
             fitToElement: true,
             source: function(query, callback){
-              if(!query.trim() || !objInput.val()){
+              var txt = objInput.val();
+              if(!query.trim() || !txt || /\^|\$|\\|\/|\[|\]|\(|\)|\{|\}|^\s$|\?/.test(txt)){
                 return;
               }
               $spinner.removeClass("hidden");

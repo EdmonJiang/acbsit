@@ -20,7 +20,7 @@ router.get('/', function (req, res) {
         var results = docs.filter(function(item){
             var arr = item.split('/')
             if(arr.length !== 2){return false;}
-            return ip.subnet(arr[0].trim(), arr[1].trim()).contains(v)
+            return ipregex.test(arr[0]) && ipregex.test(arr[1]) && ip.subnet(arr[0], arr[1]).contains(v)
           })
 
         if(results[0] && results[0].length>10){
