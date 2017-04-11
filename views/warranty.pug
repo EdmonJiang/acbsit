@@ -17,7 +17,16 @@ block content
           div.row
             label.col-sm-2.col-sm-offset-1.search-label(for="qword") Search:
             .col-sm-6.search-box
-              input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="DELL service tag is a 7-character code and only contains letters and numbers" autofocus)
+              .input-group
+                input#qword.form-control(type="text" ng-disabled="searching" ng-model="servicetag" placeholder="DELL service tag is a 7-character code and only contains letters and numbers" autofocus)
+                .input-group-btn
+                  button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown", aria-haspopup="true", aria-expanded="false")
+                    span.caret
+                    span.sr-only Toggle Dropdown
+                  ul.dropdown-menu.dropdown-menu-right
+                    li
+                      a(href="javascript:void(0)" ng-click="getExpressCode(servicetag)") Find Express Service Code
+
             .col-sm-3
               h5(ng-class="errMsg.class" ng-bind="errMsg.text")
 

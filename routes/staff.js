@@ -9,13 +9,14 @@ router.get('/users', function (req, res) {
 
 	if (req.query.key && req.query.value) {
 
-		var q_key = encodeURIComponent(req.query.key);
-		var q_value = encodeURIComponent(req.query.value);
+		var q_key = req.query.key.trim();
+		var q_value = req.query.value.trim();
+		q_value = ~q_key.toUpperCase().indexOf('ADMAIL')  && ~q_value.indexOf(' ') ? q_value.split(' ').join('.') : q_value;
 
 		var option = {
 			host: 'ssiscndb0018.apac.group.atlascopco.com',
 			port: 443,
-			path: `/mds/staffs?${q_key}=${q_value}`,
+			path: '/mds/staffs?' + encodeURIComponent(q_key) + '=' + encodeURIComponent(q_value),
 			method: 'GET',
 			rejectUnauthorized: false,
 			headers: {

@@ -200,8 +200,39 @@ angular.module('staffApp', [])
                 }
             }
 
+            $scope.getExpressCode = function (sn) {
+                if(/^[0-9A-Z]{7}$/.test(sn.trim())){
+
+                    $scope.searching = true;
+
+                    $http.post('/cmdb/warranty/dell', {sn: sn}).then(function (response) {
+                        var data = response.data;
+                        if (data.error) {
+                            $scope.errMsg.text = data.error;
+                            $scope.errMsg.class = "text-danger";
+                        }else{
+
+                            $scope.errMsg.text = data.expressTag;
+                            $scope.errMsg.class = "text-success";
+                        }
+
+                    },function (response) {
+
+                        $scope.errMsg.text = 'Failed to get data!';
+                        $scope.errMsg.class = 'text-danger';
+                        
+                    }).finally(function () {
+                        $scope.searching = false;
+                    })
+                }else{
+                    $scope.errMsg.text = "The service tag is invalid!";
+                    $scope.errMsg.class = "text-danger";
+                }
+            }
+
             var getWarrantyBy_sn = function(sn) {
                 //console.log($scope.contact);
+                //$http.get('/cmdb/warranty/dell', { params: {sn: sn} }).then(function(response) {
                 $http.post('/cmdb/warranty/', { sn: sn }).then(function(response) {
                     var data = response.data;
                     //console.log(response)
@@ -210,6 +241,7 @@ angular.module('staffApp', [])
                         $scope.errMsg.class = "text-danger";
                     } else {
                         $scope.assetheader = data.assetheader;
+                        //$scope.assetheader.expresstag = data.expresstag;
                         $scope.assetdata = data.assetdata;
                         $scope.errMsg.class = "text-success";
                         $scope.errMsg.text = '1 record found for "' + sn + '".';

@@ -10,7 +10,7 @@ block content
         div.row
           label.col-sm-2.col-sm-offset-1.search-label(for="qword") Search:
           .col-sm-6.search-box
-            input#qword.form-control(type='text' name="q" data-provide="typeahead" autocomplete="off" ng-disabled="searching" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
+            input#qword.form-control(type='text' name="q" ng-disabled="searching" ng-model="form.value" placeholder="firstname.lastname or firstname.lastname@xx.atlascopco.com" autofocus)
             span#spinner.loader-circle.input-spinner.hidden
           .col-sm-3
             h5(ng-class="errMsg.class" ng-bind="errMsg.text")
@@ -40,7 +40,7 @@ block content
           th Division
           th Local Job Title
           th Department
-          th OperationalManager
+          th Manager
           th Cost Center
           th FAM Code legal
           th Company FAM Code

@@ -3,6 +3,7 @@ const request = require('request')
 const config = require('../config/config')
 const reg = /^[0-9A-Z]{7}$/
 const url = config.url
+const tagurl = config.tagurl
 const headers = {'Content-Type': 'application/x-www-form-urlencoded',
            		 'apikey': config.key}
 
@@ -14,7 +15,7 @@ router.get('/', function (req, res) {
 router.post('/', function (req, res) {
 
 	if (req.body.sn) {
-		var sn = req.body.sn
+		var sn = req.body.sn.trim()
 		if(reg.test(sn))
 		{
 			request.post({url,headers:headers,form:{'ID':sn}},function(err,response,body){
@@ -47,7 +48,7 @@ router.post('/', function (req, res) {
 router.get('/dell', function (req, res) {
 
 	if (req.query.sn) {
-		var sn = req.query.sn
+		var sn = req.query.sn.trim()
 		if(reg.test(sn))
 		{
 			request.post({url,headers:headers,form:{'ID':sn}},function(err,response,body){
@@ -74,7 +75,38 @@ router.get('/dell', function (req, res) {
 	}
 })
 
-function getWarranty (tag) {
+router.post('/dell', function (req, res) {
+
+	if (req.body.sn) {
+		var sn = req.body.sn.trim()
+		if(reg.test(sn))
+		{
+			request.post({url: tagurl, form: {TagCode: sn}}, function (err,response,body) {
+				if (err) {
+					return res.json({error: "Cannot get ExpressService tag."})
+				}
+				//console.log(body)
+				var expressTag = JSON.parse(body).ExpressServiceTag || ''
+				//console.log(expressTag)
+				if (/^\d+$/.test(expressTag)) {
+
+					res.json({expressTag: expressTag})
+
+				}else{
+					return res.json({error: "No information found for the service tag."})
+				}
+
+			})
+
+		}else{
+			res.json({error: "Invalid DELL service tag."})
+		}
+	} else {
+		res.json({error: "Query parameter 'sn' not found."})
+	}
+})
+
+/*function getWarranty (tag) {
 	request.post({url,headers:headers,form:{'ID':tag}},function(err,response,body){
 		//console.log(body)
 		var data = JSON.parse(body)
@@ -85,6 +117,6 @@ function getWarranty (tag) {
 		}
 
 	})
-}
+}*/
 
 module.exports = router
